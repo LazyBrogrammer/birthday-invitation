@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../../public/logo.png";
 import "./Navbar.css";
 
 export const Navbar = () => {
@@ -18,7 +17,7 @@ export const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                    <img className="logo" src={logo} alt="event schedule app main logo" />
+                    <img className="logo" src="/logo.png" alt="event schedule app main logo" />
                 </Link>
                 <div className="menu-icon" onClick={handleClick}>
                     <i className={click ? "fas fa-times" : "fas fa-bars"}></i>

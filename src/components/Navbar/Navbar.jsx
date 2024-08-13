@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../../public/logo.png";
+import logo from '../../assets/logo.png';
 import "./Navbar.css";
 
-export const Navbar = () => {
+export const Navbar = ({logo}) => {
     const [click, setClick] = useState(false);
     const location = useLocation();
 

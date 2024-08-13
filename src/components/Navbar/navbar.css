@@ -1,7 +1,7 @@
 /* Navbar.css */
 
 .navbar {
-    background: #40D623;
+    background: #b2ffa0;
     height: 80px;
     display: flex;
     justify-content: space-between;
@@ -132,6 +132,6 @@
 
     .nav-links.active-link {
         color: #32ab26; /* Example: Tomato color for the active link */
-        border-bottom: 0px solid #32ab26;
+        border-bottom: 0 solid #32ab26;
     }
 }

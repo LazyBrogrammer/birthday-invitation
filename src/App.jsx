@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import logo from './assets/logo.png';
 import './App.css';
 
 // import pages
@@ -14,7 +14,7 @@ export const App = () => {
     return (
         <div className="app">
             <Router>
-                <Navbar />
+                <Navbar logo={logo}/>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/events" element={<Events />} />

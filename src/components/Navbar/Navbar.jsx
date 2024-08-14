@@ -36,7 +36,7 @@ export const Navbar = () => {
   }, []);
 
   const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
+  // const closeMobileMenu = () => setClick(false);
 
   const toggleDropdown = () => {
     if (!isMobile) {
@@ -44,11 +44,17 @@ export const Navbar = () => {
     }
   };
 
-  const closeDropdown = () => {
+  const closeDropdownMenu = () => {
+    setClick(false);
     if (!isMobile) {
       setDropdown(false);
     }
   };
+  // const closeDropdown = () => {
+  //   if (!isMobile) {
+  //     setDropdown(false);
+  //   }
+  // };
 
   const getNavLinkClass = (path) => {
     return location.pathname === path ? "nav-links active-link" : "nav-links";
@@ -57,7 +63,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+        <Link to="/" className="navbar-logo" onClick={closeDropdownMenu}>
           <img className="logo" src={logo} alt="event schedule app main logo" />
         </Link>
         <div className="menu-icon" onClick={handleClick}>
@@ -65,24 +71,36 @@ export const Navbar = () => {
         </div>
         <ul className={click ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
-            <Link to="/" className={getNavLinkClass("/")} onClick={closeMobileMenu}>
+            <Link
+              to="/"
+              className={getNavLinkClass("/")}
+              onClick={closeDropdownMenu}
+            >
               Home
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/events" className={getNavLinkClass("/events")} onClick={closeMobileMenu}>
+            <Link
+              to="/events"
+              className={getNavLinkClass("/events")}
+              onClick={closeDropdownMenu}
+            >
               Events
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/contact" className={getNavLinkClass("/contact")} onClick={closeMobileMenu}>
+            <Link
+              to="/contact"
+              className={getNavLinkClass("/contact")}
+              onClick={closeDropdownMenu}
+            >
               Contact
             </Link>
           </li>
           <li
             className="nav-item"
             onClick={toggleDropdown}
-            ref={dropdownRef}  // Reference to the dropdown element
+            ref={dropdownRef} // Reference to the dropdown element
           >
             <div className="nav-links">
               Account <i className="fas fa-caret-down" />
@@ -90,17 +108,29 @@ export const Navbar = () => {
             {(dropdown || isMobile) && (
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="/login" className="dropdown-link" onClick={closeDropdown}>
+                  <Link
+                    to="/login"
+                    className="dropdown-link"
+                    onClick={closeDropdownMenu}
+                  >
                     Login
                   </Link>
                 </li>
                 <li>
-                  <Link to="/register" className="dropdown-link" onClick={closeDropdown}>
+                  <Link
+                    to="/register"
+                    className="dropdown-link"
+                    onClick={closeDropdownMenu}
+                  >
                     Register
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className="dropdown-link" onClick={closeDropdown}>
+                  <Link
+                    to="/"
+                    className="dropdown-link"
+                    onClick={closeDropdownMenu}
+                  >
                     Logout
                   </Link>
                 </li>

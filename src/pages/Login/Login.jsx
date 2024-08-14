@@ -3,6 +3,7 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 import "./login.css";
+import { Link } from "react-router-dom";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,7 +63,10 @@ export const Login = () => {
           />
         </div>
         <button type="submit">Login</button>
-        
+        Don't have an account
+        <button type="button">
+          <Link to='/register'>Register</Link>
+        </button>
       </form>
     </div>
   );

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log(apiUrl);
-
+import "./register.css";
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,12 +15,18 @@ export const Register = () => {
       return;
     }
     try {
-      await axios.post(apiUrl + 'auth/signup', {
+      const response = await axios.post(apiUrl + "auth/signup", {
         email: email,
         name: name,
         password: password,
       });
-      alert("Registration successful!");
+      if (response.data.success) {
+        const token = response.data.data.token;
+        localStorage.setItem("token", token);
+        alert(response.data.message);
+      } else {
+        alert(response.data.message);
+      }
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
@@ -29,7 +34,7 @@ export const Register = () => {
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <div>

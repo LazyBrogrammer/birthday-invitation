@@ -11,7 +11,7 @@ body {
 }
 
 .register-container {
-  width: calc(95%);
+  width: calc(100%);
   margin: 0 auto;
   height: calc(100vh);
   display: flex;

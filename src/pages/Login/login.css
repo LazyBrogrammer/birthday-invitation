@@ -76,6 +76,11 @@ button[type="submit"]:hover {
   background-color: #42d623;
 }
 
+.register-btn {
+    margin-left: 10px;
+    color: #42D623;
+    text-decoration: underline;
+}
 /* Responsive Design */
 @media (max-width: 600px) {
   form {

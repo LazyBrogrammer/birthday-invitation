@@ -1,12 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 import "./login.css";
 import { Link } from "react-router-dom";
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,24 +24,62 @@ export const Login = () => {
       if (response.data.success) {
         const token = response.data.data.token;
         localStorage.setItem("token", token);
-        alert(response.data.message);
+        localStorage.setItem("email", email);
+        toast.success(response.data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate("/");
       } else {
-        alert(response.data.message);
+        toast.error(response.data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error("Login error:", error.response.data.message);
-        alert(error.response.data.message);
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else if (error.request) {
-        // The request was made but no response was received
         console.error("Login error:", error.request);
-        alert("Login failed. Please try again.");
+        toast.error("Login failed. Please try again.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Login error:", error.message);
-        alert("Login failed. Please try again.");
+        toast.error("Login failed. Please try again.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   };
@@ -63,11 +107,12 @@ export const Login = () => {
           />
         </div>
         <button type="submit">Login</button>
-        Don't have an account
-        <button type="button">
-          <Link to='/register'>Register</Link>
-        </button>
+        Don't have an account?
+        <a className="register-btn">
+          <Link to="/register">Register</Link>
+        </a>
       </form>
+      <ToastContainer />
     </div>
   );
 };

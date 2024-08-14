@@ -1,7 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 import "./register.css";
+
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,7 +16,15 @@ export const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     try {
@@ -20,15 +33,39 @@ export const Register = () => {
         name: name,
         password: password,
       });
-        console.log(response)
+      console.log(response);
       if (response.data.success) {
-        alert(response.data.message);
+        toast.success(response.data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else {
-        alert(response.data.message);
+        toast.error(response.data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       console.error("Registration error:", error);
-      alert("Registration failed. Please try again.");
+      toast.error("Registration failed. Please try again.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -73,7 +110,13 @@ export const Register = () => {
           />
         </div>
         <button type="submit">Register</button>
+        <br />
+        If you have an account
+        <a type="button" className="register-btn">
+          <Link to="/login">Login</Link>
+        </a>
       </form>
+      <ToastContainer />
     </div>
   );
 };

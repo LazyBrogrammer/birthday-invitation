@@ -3,7 +3,6 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 import "./login.css";
-import { Link } from "react-router-dom";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,10 +14,13 @@ export const Login = () => {
         email,
         password,
       });
-      console.log(response)
-      const token = response.data.token;
-      localStorage.setItem("token", token);
-      alert("Login successful!");
+      if (response.data.success) {
+        const token = response.data.data.token;
+        localStorage.setItem("token", token);
+        alert(response.data.message);
+      } else {
+        alert(response.data.message);
+      }
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed. Please try again.");

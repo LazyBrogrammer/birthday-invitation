@@ -22,7 +22,7 @@ export const Login = () => {
         alert(response.data.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error:", error.data.message);
       alert("Login failed. Please try again.");
     }
   };

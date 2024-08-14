@@ -1,5 +1,6 @@
 {
   "name": "birthday-invitation",
+  "proxy": "http://localhost:5173",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.0"

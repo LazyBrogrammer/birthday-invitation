@@ -8,6 +8,7 @@ import { Home } from "./pages/Home/Home.jsx";
 import { Contact } from "./pages/Contact/Contact.jsx";
 import { Login } from "./pages/Login/Login.jsx";
 import { Events } from "./pages/Events/Events.jsx";
+import { Register } from "./pages/Register/Register.jsx";
 
 export const App = () => {
   return (
@@ -19,6 +20,7 @@ export const App = () => {
           <Route path="/events" element={<Events />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </div>

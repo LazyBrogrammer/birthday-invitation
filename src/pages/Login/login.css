@@ -5,7 +5,8 @@ body {
 }
 
 .login-container {
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
   height: calc(100vh - 80px);
   display: flex;
   justify-content: center;

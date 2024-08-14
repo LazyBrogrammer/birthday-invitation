@@ -12,9 +12,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-form {
+  form {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
@@ -73,14 +71,17 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #42d623;
+  background-color: #53ff30;
 }
 
 .register-btn {
-    margin-left: 10px;
-    color: #42D623;
-    text-decoration: underline;
+  margin-left: 10px;
+  color: #42d623;
+  text-decoration: underline;
 }
+}
+
+
 /* Responsive Design */
 @media (max-width: 600px) {
   form {

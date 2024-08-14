@@ -20,9 +20,8 @@ export const Register = () => {
         name: name,
         password: password,
       });
+        console.log(response)
       if (response.data.success) {
-        const token = response.data.data.token;
-        localStorage.setItem("token", token);
         alert(response.data.message);
       } else {
         alert(response.data.message);

@@ -10,7 +10,7 @@ body {
 }
 
 .register-container {
-  width: 100%;
+  width: calc(100% - 20px);
   height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
@@ -65,7 +65,7 @@ input[type="password"]:focus {
 
 /* Submit Button */
 button[type="submit"] {
-  width: 100%;
+  width: calc(100% - 20px);
   padding: 10px;
   background-color: #42d623;
   color: #ffffff;

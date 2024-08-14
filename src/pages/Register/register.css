@@ -5,10 +5,14 @@ body {
   padding: 0;
   /* height: 100vh; */
   margin-bottom: 80px;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
 }
 
 .register-container {
-  width: calc(100% - 20px);
+  width: calc(95%);
+  margin: 0 auto;
   height: calc(100vh);
   display: flex;
   justify-content: center;

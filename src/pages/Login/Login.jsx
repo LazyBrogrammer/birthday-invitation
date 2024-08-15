@@ -25,16 +25,21 @@ export const Login = () => {
         const token = response.data.data.token;
         localStorage.setItem("token", token);
         localStorage.setItem("email", email);
+
         toast.success(response.data.message, {
           position: "bottom-right",
-          autoClose: 3000,
+          autoClose: 3000, // Toast will be visible for 3 seconds
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
         });
-        navigate("/");
+
+        // Wait for 3 seconds before navigating to the home page
+        setTimeout(() => {
+          navigate("/");
+        }, 3000); // 3000 milliseconds = 3 seconds
       } else {
         toast.error(response.data.message, {
           position: "bottom-right",

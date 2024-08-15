@@ -11,8 +11,9 @@
 }
 
 .event-form {
-  background-color: #b2ffa0;
+  background-color: white;
   width: 90vw;
+  box-shadow: 0px 0px ;
   border-radius: 10px;
   padding: 10px;
 }
@@ -63,6 +64,7 @@ select {
 .guest-item {
   width: 300px;
   background-color: white;
+  box-shadow: 0px 0px 3px 3px gainsboro;
   border-radius: 10px;
   padding: 10px;
 }

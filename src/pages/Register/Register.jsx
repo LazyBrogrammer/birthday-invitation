@@ -1,17 +1,20 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const apiUrl = import.meta.env.VITE_API_URL;
+
 import "./register.css";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -28,12 +31,11 @@ export const Register = () => {
       return;
     }
     try {
-      const response = await axios.post(apiUrl + "auth/signup", {
-        email: email,
-        name: name,
-        password: password,
+      const response = await axios.post(apiUrl + "auth/register", {
+        name,
+        email,
+        password,
       });
-      console.log(response);
       if (response.data.success) {
         toast.success(response.data.message, {
           position: "bottom-right",
@@ -44,6 +46,11 @@ export const Register = () => {
           draggable: true,
           progress: undefined,
         });
+
+        // Wait for 3 seconds before navigating to the home page
+        setTimeout(() => {
+          navigate("/");
+        }, 3000); // 3000 milliseconds = 3 seconds
       } else {
         toast.error(response.data.message, {
           position: "bottom-right",
@@ -56,16 +63,40 @@ export const Register = () => {
         });
       }
     } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("Registration failed. Please try again.", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      if (error.response) {
+        console.error("Registration error:", error.response.data.message);
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else if (error.request) {
+        console.error("Registration error:", error.request);
+        toast.error("Registration failed. Please try again.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        console.error("Registration error:", error.message);
+        toast.error("Registration failed. Please try again.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
   };
 
@@ -110,9 +141,8 @@ export const Register = () => {
           />
         </div>
         <button type="submit">Register</button>
-        <br />
-        If you have an account
-        <a type="button" className="register-btn">
+        Already have an account?
+        <a className="login-btn">
           <Link to="/login">Login</Link>
         </a>
       </form>

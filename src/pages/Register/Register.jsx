@@ -31,7 +31,7 @@ export const Register = () => {
       return;
     }
     try {
-      const response = await axios.post(apiUrl + "auth/register", {
+      const response = await axios.post(apiUrl + "/auth/signup", {
         name,
         email,
         password,
@@ -64,7 +64,7 @@ export const Register = () => {
       }
     } catch (error) {
       if (error.response) {
-        console.error("Registration error:", error.response.data.message);
+        console.error("Registration error:", error.response.data);
         toast.error(error.response.data.message, {
           position: "bottom-right",
           autoClose: 3000,

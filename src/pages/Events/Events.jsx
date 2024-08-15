@@ -47,7 +47,7 @@ export const Events = () => {
 
     try {
       const response = await axios.post(
-        apiUrl + "invitations/invitation",
+        apiUrl + "/invitations/invitation",
         eventData
       );
       if (response.data.success) {

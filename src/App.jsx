@@ -9,6 +9,7 @@ import { Contact } from "./pages/Contact/Contact.jsx";
 import { Login } from "./pages/Login/Login.jsx";
 import { Events } from "./pages/Events/Events.jsx";
 import { Register } from "./pages/Register/Register.jsx";
+// import {ProtectedRoute} from "./utils/ProtectedRoute.js";
 
 export const App = () => {
   return (
@@ -17,7 +18,9 @@ export const App = () => {
         <Navbar logo={logo} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/events" element={<Events />} />
+          <Route
+              path="/events" element={<Events />}
+          />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

@@ -4,11 +4,13 @@
     display: none;
     position: absolute;
     top: 80px; /* Adjust based on your navbar height */
+    right: 50px;
     list-style: none;
     text-align: start;
     background: #333;
     border-radius: 0 0 5px 5px;
     z-index: 999;
+    cursor: pointer;
 }
 
 .dropdown-menu.clicked {

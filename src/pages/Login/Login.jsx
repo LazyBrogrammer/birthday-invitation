@@ -62,7 +62,18 @@ export const Login = ({ setLoggedIn }) => {
       if (error.response) {
         console.log(error.response);
         console.log(error)
-
+        if (error.response.status === 500) {
+            setLoading(false);
+            toast.error("Server not working. Please try again later.", {
+                position: "bottom-right",
+                autoClose: false,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
         if (error.response.status === 400) {
           setLoading(false);
           // Handle 400 Bad Request error (e.g., invalid credentials)

@@ -1,112 +1,96 @@
+/* Container for the whole events section */
 .events-container {
   width: 100vw;
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-}
-
-.events h2 {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.event-form {
-  background-color: white;
-  width: 90vw;
-  box-shadow: 0px 0px ;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.event-form_top,
-.event-form_middle {
-  display: flex;
   align-items: center;
-  justify-content: space-around;
+  margin-top: 20px;
 }
-.event-form_top input,
-.event-form_middle textarea {
-  display: flex;
-  width: 100%;
-}
-.event-form_top input:focus,
-.event-form_middle textarea:focus {
-  border: 1px solid #b2ffa0;
-}
-input {
-  margin-bottom: 10px;
-  width: 100%;
-}
-input:focus {
-  border-color: #b2ffa0 !important;
-}
-/*  */
 
-h3 {
+/* Styling the events box */
+.events {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headers for the form */
+h2, h3 {
   text-align: center;
-  margin: 20px 0 !important;
+  margin-bottom: 20px;
+  color: #32ab26; /* Green text matching the navbar */
 }
 
-select {
-  margin-bottom: 30px;
-}
-
-.guests-container {
+/* Form layout */
+.event-form {
   display: flex;
+  flex-direction: column;
   gap: 20px;
-  /* justify-content: space-between; */
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  margin-bottom: 20px;
 }
 
-.guest-item {
-  width: 300px;
-  background-color: white;
-  box-shadow: 0px 0px 3px 3px gainsboro;
-  border-radius: 10px;
-  padding: 10px;
+/* Input fields, text areas, and select boxes */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #32ab26; /* Green border */
+  box-sizing: border-box;
+  background-color: #f9f9f9; /* Light background */
+  color: #000000; /* Black text */
+  margin-bottom: 10px;
 }
 
-.remove-button {
-  background-color: red;
+/* Focus state for inputs */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #32ab26; /* Green border on focus */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #32ab26; /* Primary green color matching the navbar */
   color: white;
-  display: flex;
-  margin: 0 auto;
   border: none;
-  padding: 5px 20px;
-  border-radius: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
 }
-.add-button {
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  width: 30%;
-  margin-bottom: 20px;
+
+button:hover {
+  background-color: #28a745; /* Slightly darker green on hover */
+}
+
+/* Guests and sub-events buttons */
+button[type="button"] {
+  background-color: #32ab26; /* Same primary green color */
   color: white;
-  padding: 10px 30px;
-  border-radius: 10px;
-  background-color: #32ab26;
 }
-.create-event {
-  display: flex;
-  justify-content: center;
-  width: 50%;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  color: white;
-  padding: 10px 30px;
-  border-radius: 10px;
-  background-color: #32ab26;
+
+button[type="button"]:hover {
+  background-color: #28a745; /* Slightly darker green on hover */
 }
-@media screen and (max-width: 960px) {
-  .event-form_middle,
-  .event-form_top {
-    flex-direction: column;
-  }
-  .event-form_middle textarea,
-  .event-form_top input {
-    width: 300px !important;
-  }
+
+/* Guest item styling */
+.guest-item,
+.subevent-item {
+  background-color: #f9f9f9;
+  border: 1px solid #32ab26;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+/* Header for sub-events and guests */
+.guest-item h3,
+.subevent-item h3 {
+  color: #32ab26;
 }

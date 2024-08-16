@@ -15,6 +15,7 @@ export const Login = ({ setLoggedIn }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -31,7 +32,6 @@ export const Login = ({ setLoggedIn }) => {
         localStorage.setItem("email", email);
         setLoading(false);
         toast.success(response.data.message, {
-
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -40,12 +40,12 @@ export const Login = ({ setLoggedIn }) => {
           draggable: true,
           progress: undefined,
         });
-
-        setLoggedIn(true);
-
+       if (location.pathname !== '/login') {
+         setLoggedIn(true);
+       }
         setTimeout(() => {
           navigate("/");
-        }, 3000);
+        }, 1000);
       } else {
         setLoading(false);
         toast.error(response.data.message, {
@@ -109,7 +109,7 @@ export const Login = ({ setLoggedIn }) => {
           });
         }
       } else if (error.request) {
-        
+
         setLoading(false);
         // Handle network error (e.g., server is down)
         toast.error("Server not working. Please try again later.", {

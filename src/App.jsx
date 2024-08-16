@@ -9,28 +9,31 @@ import { Contact } from "./pages/Contact/Contact.jsx";
 import { Login } from "./pages/Login/Login.jsx";
 import { Events } from "./pages/Events/Events.jsx";
 import { Register } from "./pages/Register/Register.jsx";
-import {useState} from "react";
-// import {ProtectedRoute} from "./utils/ProtectedRoute.js";
+import {ToastContainer} from "react-toastify";
+import {MyErrorBoundary} from "./components/MyErrorBoundary/MyErrorBoundary.jsx";
 
 
 export const App = () => {
-  const [token, setToken] = useState(localStorage.getItem('token'))
-  console.log(token)
 
   return (
-    <div className="app">
-      <Router>
-        <Navbar logo={logo} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-              path="/events" element={<Events />}
-          />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
-    </div>
+
+      <MyErrorBoundary>
+          <div className="app">
+              <Router>
+                  <Navbar logo={logo}/>
+                  <Routes>
+                      <Route path="/" element={<Home/>}/>
+                      <Route
+                          path="/events" element={<Events/>}
+                      />
+                      <Route path="/contact" element={<Contact/>}/>
+                      <Route path="/login" element={<Login/>}/>
+                      <Route path="/register" element={<Register/>}/>
+                  </Routes>
+              </Router>
+              <ToastContainer/>
+          </div>
+      </MyErrorBoundary>
+
   );
 };

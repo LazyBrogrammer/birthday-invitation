@@ -1,10 +1,16 @@
-import video from '../../assets/backgroundVideo.mp4'
+import React, { useState } from 'react';
+import video from '../../assets/backgroundVideo.mp4';
 import './home.css';
-import {Login} from "../Login/Login.jsx";
-import {isAuthenticated} from "../../auth/auth.js";
+import { Login } from "../Login/Login";
+import { isAuthenticated } from "../../auth/auth";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
-const token = localStorage.getItem('token');
+    // State to track if the user is logged in
+    const [loggedIn, setLoggedIn] = useState(isAuthenticated());
+
+    // Callback function to handle successful login
 
     return (
         <div className="home">
@@ -14,9 +20,15 @@ const token = localStorage.getItem('token');
                     Your browser does not support the video tag.
                 </video>
             </div>
-            {
-                isAuthenticated() ? <h1>Welcome to our website</h1> : <Login />
-            }
+            {loggedIn ? (
+                <div className="home-content">
+                    <h1>Welcome to the Home Page</h1>
+                    <p>This is a simple home page</p>
+                </div>
+            ) : (
+                <Login setLoggedIn={setLoggedIn} /> // Pass the callback to the Login component
+            )}
+            <ToastContainer />  {/* ToastContainer here ensures toasts are displayed */}
         </div>
     );
 };

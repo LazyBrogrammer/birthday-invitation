@@ -104,7 +104,7 @@ export const Navbar = () => {
             ref={dropdownRef} // Reference to the dropdown element
           >
             <div className="nav-links">
-              {isAuthenticated() ? <UserName username={email} /> :  <Link to='/login'>Login</Link>}
+              {isAuthenticated() ? <UserName username={email} /> :  <Link onClick={closeDropdownMenu} to='/login'>Login</Link>}
 
             </div>
             {/*Account <i style={{marginLeft: '10px'}} className="fas fa-caret-down" />*/}

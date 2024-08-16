@@ -14,6 +14,7 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);  // New loading state
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -30,6 +31,9 @@ export const Register = () => {
       });
       return;
     }
+
+    setLoading(true);  // Start loading
+
     try {
       const response = await axios.post(apiUrl + "/auth/signup", {
         email,
@@ -50,7 +54,7 @@ export const Register = () => {
         // Wait for 3 seconds before navigating to the home page
         setTimeout(() => {
           navigate("/");
-        }, 3000); // 3000 milliseconds = 3 seconds
+        }, 3000);  // 3000 milliseconds = 3 seconds
       } else {
         toast.error(response.data.message, {
           position: "bottom-right",
@@ -64,9 +68,7 @@ export const Register = () => {
       }
     } catch (error) {
       if (error.response) {
-        console.log(error)
-
-        console.error("Registration error:", error.response);
+        console.error("Registration error:", error.response.data.message);
         toast.error(error.response.data.message, {
           position: "bottom-right",
           autoClose: 3000,
@@ -99,56 +101,58 @@ export const Register = () => {
           progress: undefined,
         });
       }
+    } finally {
+      setLoading(false);  // Stop loading when done
     }
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-        Already have an account?
-        <a className="login-btn">
-          <Link to="/login">Login</Link>
-        </a>
-      </form>
-      <ToastContainer />
-    </div>
+      <div className="register-container">
+        <h2>Register</h2>
+        <form onSubmit={handleRegister}>
+          <div>
+            <label>Name:</label>
+            <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+            />
+          </div>
+          <div>
+            <label>Email:</label>
+            <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+            />
+          </div>
+          <div>
+            <label>Confirm Password:</label>
+            <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+            />
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? <span className="loader"></span> : "Register"}
+          </button>
+          Already have an account?
+          <Link className="login-btn" to="/login">Login</Link>
+        </form>
+        <ToastContainer />
+      </div>
   );
 };

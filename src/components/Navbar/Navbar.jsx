@@ -2,8 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
+import {logout} from "../../utils/logout.js";
+import {isAuthenticated} from "../../auth/auth.js";
+import {UserName} from "../UserName/UserName.jsx";
 
 export const Navbar = () => {
+  const token = localStorage.getItem('token');
+  const email = localStorage.getItem('email');
   const [click, setClick] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const location = useLocation();
@@ -50,11 +55,7 @@ export const Navbar = () => {
       setDropdown(false);
     }
   };
-  // const closeDropdown = () => {
-  //   if (!isMobile) {
-  //     setDropdown(false);
-  //   }
-  // };
+
 
   const getNavLinkClass = (path) => {
     return location.pathname === path ? "nav-links active-link" : "nav-links";
@@ -103,9 +104,11 @@ export const Navbar = () => {
             ref={dropdownRef} // Reference to the dropdown element
           >
             <div className="nav-links">
-              Account <i className="fas fa-caret-down" />
+              {isAuthenticated() ? <UserName username={email} /> :  <Link to='/login'>Login</Link>}
+
             </div>
-            {(dropdown || isMobile) && (
+            {/*Account <i style={{marginLeft: '10px'}} className="fas fa-caret-down" />*/}
+            {(dropdown || isMobile) && isAuthenticated() && (
               <ul className="dropdown-menu">
                 <li>
                   <Link
@@ -125,7 +128,7 @@ export const Navbar = () => {
                     Register
                   </Link>
                 </li>
-                <li>
+                <li onClick={() => logout()}>
                   <Link
                     to="/"
                     className="dropdown-link"

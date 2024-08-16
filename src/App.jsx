@@ -9,9 +9,14 @@ import { Contact } from "./pages/Contact/Contact.jsx";
 import { Login } from "./pages/Login/Login.jsx";
 import { Events } from "./pages/Events/Events.jsx";
 import { Register } from "./pages/Register/Register.jsx";
+import {useState} from "react";
 // import {ProtectedRoute} from "./utils/ProtectedRoute.js";
 
+
 export const App = () => {
+  const [token, setToken] = useState(localStorage.getItem('token'))
+  console.log(token)
+
   return (
     <div className="app">
       <Router>

@@ -1,24 +1,17 @@
-/* Global Styles */
 body {
-  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
   height: 100vh;
-  margin-bottom: 80px;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
 }
 
 .register-container {
-  width: calc(100%);
+  width: 95%;
   margin: 0 auto;
-  height: calc(100vh);
+  height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* Form Container */
   form {
     background-color: #ffffff;
     padding: 20px;
@@ -29,7 +22,6 @@ body {
     margin: 10px;
   }
 
-  /* Form Title */
   h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -66,31 +58,31 @@ body {
 
   /* Submit Button */
   button[type="submit"] {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px;
     background-color: #42d623;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     font-size: 16px;
-    cursor: pointer;
     transition: background-color 0.3s;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   button[type="submit"]:hover {
     background-color: #53ff30;
   }
-  .login-btn {
+
+  .register-btn {
     margin-left: 10px;
     color: #42d623;
     text-decoration: underline;
   }
 }
 
-/* register.css */
+/* login.css */
 
-/* register.css */
+/* login.css */
 
 button {
   position: relative;
@@ -100,21 +92,21 @@ button {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
-  background-color: #28a745; /* Green background */
+  background-color: #007bff;
   color: white;
-  cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  cursor: not-allowed;
 }
 
 button:disabled {
-  background-color: #6c757d;  /* Gray background when disabled */
+  background-color: #5a9bff;  /* Lighter shade when disabled */
   cursor: not-allowed;
-  opacity: 0.7;  /* Slightly transparent when disabled */
+  opacity: 0.7;  /* Make the button slightly transparent when disabled */
 }
 
 button.loading {
-  background-color: #6c757d;  /* Change color when loading */
+  background-color: #5a9bff;  /* Change color when loading */
 }
 
 .loader {

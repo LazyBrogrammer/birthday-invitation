@@ -146,7 +146,7 @@ export const Register = () => {
                 required
             />
           </div>
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className={loading ? "loading" : ""}>
             {loading ? <span className="loader"></span> : "Register"}
           </button>
           Already have an account?

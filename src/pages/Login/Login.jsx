@@ -29,8 +29,9 @@ export const Login = ({ setLoggedIn }) => {
         const token = response.data.data.token;
         localStorage.setItem("token", token);
         localStorage.setItem("email", email);
-
+        setLoading(false);
         toast.success(response.data.message, {
+
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -46,6 +47,7 @@ export const Login = ({ setLoggedIn }) => {
           navigate("/");
         }, 3000);
       } else {
+        setLoading(false);
         toast.error(response.data.message, {
           position: "bottom-right",
           autoClose: 3000,
@@ -58,9 +60,13 @@ export const Login = ({ setLoggedIn }) => {
       }
     } catch (error) {
       if (error.response) {
+        console.log(error.response);
+        console.log(error)
+
         if (error.response.status === 400) {
+          setLoading(false);
           // Handle 400 Bad Request error (e.g., invalid credentials)
-          toast.error("Invalid credentials. Please try again.", {
+          toast.error(error.response.data.message, {
             position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -70,6 +76,7 @@ export const Login = ({ setLoggedIn }) => {
             progress: undefined,
           });
         } else {
+          setLoading(false);
           toast.error("An error occurred. Please try again.", {
             position: "bottom-right",
             autoClose: 3000,
@@ -81,6 +88,7 @@ export const Login = ({ setLoggedIn }) => {
           });
         }
       } else if (error.request) {
+        setLoading(false);
         // Handle network error (e.g., server is down)
         toast.error("Server not working. Please try again later.", {
           position: "bottom-right",
@@ -92,6 +100,7 @@ export const Login = ({ setLoggedIn }) => {
           progress: undefined,
         });
       } else {
+        setLoading(false);
         toast.error("An unexpected error occurred. Please try again.", {
           position: "bottom-right",
           autoClose: 3000,

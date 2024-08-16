@@ -65,7 +65,18 @@
   position: relative;
   border: 3px solid transparent;
   cursor: pointer;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
+}
+
+.nav-links-border {
+  margin-bottom: 0;
+  border: 1px solid #32ab26;
+    border-radius: 10px;
+
+}
+.nav-links-border:hover {
+  background-color: #32ab26;
+  color: #fff;
 }
 
 .nav-links:hover::after {

@@ -103,9 +103,8 @@ export const Navbar = () => {
             onClick={toggleDropdown}
             ref={dropdownRef} // Reference to the dropdown element
           >
-            <div className="nav-links">
+            <div style={isAuthenticated() ? {marginBottom: '20px'}: {marginBottom: '0px'} } className={`nav-links ${isAuthenticated() ? '' : 'nav-links-border'}`}>
               {isAuthenticated() ? <UserName username={email} /> :  <Link onClick={closeDropdownMenu} to='/login'>Login</Link>}
-
             </div>
             {/*Account <i style={{marginLeft: '10px'}} className="fas fa-caret-down" />*/}
             {(dropdown || isMobile) && isAuthenticated() && (

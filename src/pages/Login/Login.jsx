@@ -60,8 +60,18 @@ export const Login = ({ setLoggedIn }) => {
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response);
-        console.log(error)
+        if (error.response.status === 401) {
+            setLoading(false);
+            toast.error("Invalid credentials. Please try again.", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
         if (error.response.status === 500) {
             setLoading(false);
             toast.error("Server not working. Please try again later.", {
@@ -74,7 +84,7 @@ export const Login = ({ setLoggedIn }) => {
                 progress: undefined,
             });
         }
-        if (error.response.status === 400) {
+        if (error.response.status === 500) {
           setLoading(false);
           // Handle 400 Bad Request error (e.g., invalid credentials)
           toast.error(error.response.data.message, {
@@ -87,7 +97,7 @@ export const Login = ({ setLoggedIn }) => {
             progress: undefined,
           });
         } else {
-          setLoading(false);
+          // setLoading(false);
           toast.error("An error occurred. Please try again.", {
             position: "bottom-right",
             autoClose: 3000,
@@ -99,6 +109,7 @@ export const Login = ({ setLoggedIn }) => {
           });
         }
       } else if (error.request) {
+        
         setLoading(false);
         // Handle network error (e.g., server is down)
         toast.error("Server not working. Please try again later.", {
@@ -111,7 +122,9 @@ export const Login = ({ setLoggedIn }) => {
           progress: undefined,
         });
       } else {
-        setLoading(false);
+        console.log(error)
+
+        // setLoading(false);
         toast.error("An unexpected error occurred. Please try again.", {
           position: "bottom-right",
           autoClose: 3000,

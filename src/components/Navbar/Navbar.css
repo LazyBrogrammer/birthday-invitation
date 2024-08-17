@@ -44,14 +44,16 @@
   list-style: none;
   text-align: center;
   margin-right: -22px;
+  gap: 20px;
 }
 
 .nav-item {
-  height: 50px;
+  /*height: 50px;*/
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative; /* Ensure proper positioning for dropdown */
+
 }
 
 .nav-links {
@@ -65,13 +67,12 @@
   position: relative;
   border: 3px solid transparent;
   cursor: pointer;
-  /*margin-bottom: 20px;*/
 }
 
 .nav-links-border {
   margin-bottom: 0;
   border: 1px solid #32ab26;
-    border-radius: 10px;
+  border-radius: 10px;
 
 }
 .nav-links-border:hover {
@@ -180,7 +181,7 @@
 
   .nav-links {
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
     width: 100%;
     display: table;
     position: relative;

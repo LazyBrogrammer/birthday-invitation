@@ -91,7 +91,9 @@
   .subevent-item h3 {
     color: #32ab26;
   }
-
+  .remove-button {
+    background-color: red !important;
+  }
 }
 
 /* Styling the events box */

@@ -62,7 +62,7 @@ export const Navbar = () => {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeDropdownMenu}>
-            <img className="logo" src={logo} alt="event schedule app main logo" />
+            <img className="logo" src={logo} alt="event schedule app main logo"/>
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
@@ -84,7 +84,7 @@ export const Navbar = () => {
                 ref={eventsDropdownRef}
             >
               <div className="nav-links" onClick={toggleEventsDropdown}>
-                Events &nbsp; <i className="fas fa-caret-down" />
+                Events &nbsp; <i className="fas fa-caret-down"/>
               </div>
               {(eventsDropdown || isMobile) && (
                   <ul className="dropdown-menu">
@@ -112,7 +112,7 @@ export const Navbar = () => {
                           className="dropdown-link"
                           onClick={closeDropdownMenu}
                       >
-                        Invitation Events
+                        My Invitations
                       </Link>
                     </li>
                   </ul>
@@ -134,12 +134,12 @@ export const Navbar = () => {
                 ref={accountDropdownRef}
             >
               <div
-                  style={isAuthenticated() ? { marginBottom: "20px" } : { marginBottom: "0px" }}
+                  style={isAuthenticated() ? {marginBottom: "20px"} : {marginBottom: "0px"}}
                   className={`nav-links ${isAuthenticated() ? "" : "nav-links-border"}`}
                   onClick={toggleAccountDropdown}
               >
                 {isAuthenticated() ? (
-                    <UserName username={email} />
+                    <UserName username={email}/>
                 ) : (
                     <Link onClick={closeDropdownMenu} to="/login">
                       Login

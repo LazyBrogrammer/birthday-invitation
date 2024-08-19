@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import video from '../../assets/backgroundVideo.mp4';
 import './home.css';
 import { Login } from "../Login/Login";
@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
-    // State to track if the user is logged in
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
 
     // Callback function to handle successful login

@@ -161,7 +161,7 @@
   .nav-menu {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     flex-direction: column;
     width: 100%;
     height: calc(100vh - 80px);
@@ -203,6 +203,8 @@
     position: absolute;
     /*background: #32ab26; !* Same as navbar background for consistency *!*/
     border-radius: 0;
+    left: 10px;
+    margin: 0 auto;
   }
 
   .dropdown-menu li {

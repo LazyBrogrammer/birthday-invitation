@@ -9,7 +9,6 @@
   z-index: 1000;
   color: #42d623;
   padding: 0 20px;
-  /*padding-top: 20px;*/
 }
 
 .navbar-container {
@@ -48,12 +47,10 @@
 }
 
 .nav-item {
-  /*height: 50px;*/
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Ensure proper positioning for dropdown */
-
+  position: relative;
 }
 
 .nav-links {
@@ -64,7 +61,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   border: 3px solid transparent;
   cursor: pointer;
 }
@@ -73,8 +69,8 @@
   margin-bottom: 0;
   border: 1px solid #32ab26;
   border-radius: 10px;
-
 }
+
 .nav-links-border:hover {
   background-color: #32ab26;
   color: #fff;
@@ -104,7 +100,7 @@
 
 /* Dropdown Menu */
 .dropdown-menu {
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
   top: 100%; /* Position the dropdown below the parent */
   left: 0;
@@ -194,32 +190,10 @@
 
   /* Dropdown Menu for Mobile */
   .nav-item .dropdown-menu {
-    position: absolute;
-    top: 100px;
-    padding: 0;
-    border-radius: 0;
-  }
-
-  .nav-item:hover .dropdown-menu {
-    display: block;
-  }
-
-  .dropdown-menu li {
-    padding: 10px 0;
-    text-align: center;
-  }
-  .nav-item .dropdown-menu {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    border-radius: 0;
+    position: static;
     background: #32ab26; /* Same as navbar background for consistency */
-  }
-
-  .nav-item:hover .dropdown-menu {
-    display: block;
+    padding: 0;
+    border-radius: 0;
   }
 
   .dropdown-menu li {

@@ -85,7 +85,7 @@ export const Events = () => {
 
         try {
             console.log(eventData)
-            const response = await axios.post(apiUrl + "/invitations/invitation", eventData, {
+            const response = await axios.post(apiUrl + "/invitations/invitation=''", eventData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

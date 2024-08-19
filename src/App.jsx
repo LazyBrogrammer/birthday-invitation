@@ -11,6 +11,7 @@ import { Register } from "./pages/Register/Register.jsx";
 import {ToastContainer} from "react-toastify";
 import {MyErrorBoundary} from "./components/MyErrorBoundary/MyErrorBoundary.jsx";
 import {CreateEvents} from "./pages/CreateEvents/CreateEvents.jsx";
+import {MyInvitations} from "./pages/MyInvitaions/MyInvitations.jsx";
 
 
 export const App = () => {
@@ -25,6 +26,9 @@ export const App = () => {
                       <Route path="/" element={<Home/>}/>
                       <Route
                           path="/events/create-events" element={<CreateEvents/>}
+                      />
+                      <Route
+                          path="/events/my-invitations" element={<MyInvitations/>}
                       />
                       <Route path="/contact" element={<Contact/>}/>
                       <Route path="/login" element={<Login/>}/>

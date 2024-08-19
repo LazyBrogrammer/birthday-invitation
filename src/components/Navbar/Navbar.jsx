@@ -99,7 +99,7 @@ export const Navbar = () => {
                     </li>
                     <li>
                       <Link
-                          to="/events/create-event"
+                          to="/events/create-events"
                           className="dropdown-link"
                           onClick={closeDropdownMenu}
                       >

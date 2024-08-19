@@ -90,7 +90,7 @@ export const Navbar = () => {
                   <ul className="dropdown-menu">
                     <li>
                       <Link
-                          to="/my-events"
+                          to="/events/my-events"
                           className="dropdown-link"
                           onClick={closeDropdownMenu}
                       >
@@ -99,7 +99,7 @@ export const Navbar = () => {
                     </li>
                     <li>
                       <Link
-                          to="/create-event"
+                          to="/events/create-event"
                           className="dropdown-link"
                           onClick={closeDropdownMenu}
                       >
@@ -108,7 +108,7 @@ export const Navbar = () => {
                     </li>
                     <li>
                       <Link
-                          to="/invitation-events"
+                          to="/events/my-invitations"
                           className="dropdown-link"
                           onClick={closeDropdownMenu}
                       >

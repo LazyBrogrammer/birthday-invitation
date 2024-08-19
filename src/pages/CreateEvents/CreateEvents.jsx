@@ -4,11 +4,11 @@ import {useNavigate} from "react-router-dom";
 import {format} from "date-fns";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './events.css'
+import './createEvents.css'
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export const Events = () => {
+export const CreateEvents = () => {
     const [eventName, setEventName] = useState("");
     const [eventStartTime, setEventStartTime] = useState("");
     const [eventEndTime, setEventEndTime] = useState("");

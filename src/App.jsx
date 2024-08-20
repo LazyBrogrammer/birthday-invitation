@@ -86,8 +86,8 @@ export const App = () => {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
                         {
-                            route.map((route) => <Route key={route.id} path={`/events/${route.id}`}
-                                                        element={<FillCreatedEvent route={route}/>}
+                            route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}
+                                                        element={<FillCreatedEvent data={route}/>}
                                 />
                             )
                         }

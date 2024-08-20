@@ -7,11 +7,12 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import {Loader} from "../../components/Loader/Loader.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const Home = () => {
+    const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -66,9 +67,9 @@ export const Home = () => {
 
     }, [loggedIn]);
 
-    const changeRoute = (e) => {
-        console.log(e);
-    }
+    // const changeRoute = (e) => {
+    //     // navigate('events/event/' + e.target.id)
+    // }
     return (
         <div className="home">
             <div className="video-background">
@@ -92,9 +93,9 @@ export const Home = () => {
                             <div className="events-grid">
                                 {events.length > 0 ? (
                                     events.reverse().map(event => (
-                                        <Link onClick={(e) => changeRoute(e, event.id)} to={`/events/event/${event.id}`}
-                                              key={event.id}>
-                                            <div className="event-card">
+                                        <Link to={`/events/event/${event.id}`} key={event.id}>
+                                            <div id={event.id}
+                                                 className="event-card">
                                                 <h3>{event.eventName}</h3>
                                             </div>
                                         </Link>

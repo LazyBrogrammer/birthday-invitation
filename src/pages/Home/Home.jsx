@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import video from '../../assets/backgroundVideo.mp4';
 import './home.css';
-import { Login } from "../Login/Login";
-import { isAuthenticated } from "../../auth/auth";
-import { ToastContainer, toast } from 'react-toastify';
+import {Login} from "../Login/Login";
+import {isAuthenticated} from "../../auth/auth";
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
@@ -12,12 +12,14 @@ const apiUrl = import.meta.env.VITE_API_URL;
 export const Home = () => {
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
     const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(false);
+    console.log(events)
 
     // Function to fetch events
     const fetchEvents = async () => {
         const organizerEmail = localStorage.getItem("email");
         const token = localStorage.getItem("token");
-
+        setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/invitations/organizer/${organizerEmail}/events`, {
                 headers: {
@@ -27,6 +29,7 @@ export const Home = () => {
 
             if (response.data.success) {
                 setEvents(response.data.data);
+                setLoading(false);
             } else {
                 toast.error("Failed to fetch events: " + response.data.message, {
                     position: "bottom-right",
@@ -63,30 +66,40 @@ export const Home = () => {
         <div className="home">
             <div className="video-background">
                 <video autoPlay loop muted>
-                    <source src={video} type="video/mp4" />
+                    <source src={video} type="video/mp4"/>
                     Your browser does not support the video tag.
                 </video>
             </div>
             {loggedIn ? (
                 <div className="home-content">
-                    <h1>Welcome to the Home Page</h1>
-                    <p>This is a simple home page</p>
+                    {
+                        loggedIn ?
+                            <span>
+                                <h1>Events</h1>
+                                <p>This is a simple home page</p>
+                            </span> :
+                            <h1>Welcome to the Home Page</h1>
+                    }
                     <div className="events-grid">
                         {events.length > 0 ? (
-                            events.map(event => (
+                            events.reverse().map(event => (
                                 <div key={event.id} className="event-card">
                                     <h3>{event.eventName}</h3>
                                 </div>
                             ))
                         ) : (
-                            <p>No events available.</p>
+
+                            <div className={'no-events'}>
+                                <h3>No events found.</h3>
+                            </div>
+
                         )}
                     </div>
                 </div>
             ) : (
-                <Login setLoggedIn={setLoggedIn} />
+                <Login setLoggedIn={setLoggedIn}/>
             )}
-            <ToastContainer />
+            <ToastContainer/>
         </div>
     );
 };

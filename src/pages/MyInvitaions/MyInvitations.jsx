@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './myInvitations.css'
-const apiUrl = import.meta.env.VITE_API_URL;
+import "./myInvitations.css"; // For custom styles
 
 export const MyInvitations = () => {
     const [events, setEvents] = useState([]);
@@ -10,7 +9,7 @@ export const MyInvitations = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get(apiUrl + `/guests/account/${email}/events`);
+                const response = await axios.get(`/guests/account/${email}/events`);
                 if (response.data.success) {
                     // Sort events by start time (ascending)
                     const sortedEvents = response.data.data.sort((a, b) =>
@@ -31,7 +30,10 @@ export const MyInvitations = () => {
     return (
         <div className="events-container">
             {events.length === 0 ? (
-                <p>No events found.</p>
+                <div className="no-events-card">
+                    <h3>No Events Found</h3>
+                    <p>There are no events to display. Please check back later or create a new event.</p>
+                </div>
             ) : (
                 events.map((event) => (
                     <div key={event.id} className="event-card">
@@ -67,4 +69,3 @@ export const MyInvitations = () => {
         </div>
     );
 };
-

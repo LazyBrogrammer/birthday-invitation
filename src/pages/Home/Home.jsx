@@ -6,6 +6,8 @@ import {isAuthenticated} from "../../auth/auth";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import {Loader} from "../../components/Loader/Loader.jsx";
+import {Link} from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -13,7 +15,7 @@ export const Home = () => {
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log(events)
+    // console.log(events)
 
     // Function to fetch events
     const fetchEvents = async () => {
@@ -60,8 +62,13 @@ export const Home = () => {
         if (loggedIn) {
             fetchEvents();
         }
+        // console.log(events)
+
     }, [loggedIn]);
 
+    const changeRoute = (e) => {
+        console.log(e);
+    }
     return (
         <div className="home">
             <div className="video-background">
@@ -70,35 +77,43 @@ export const Home = () => {
                     Your browser does not support the video tag.
                 </video>
             </div>
-            {loggedIn ? (
-                <div className="home-content">
-                    {
-                        loggedIn ?
-                            <span>
+            {
+                loading ? <Loader/> : <div>
+                    {loggedIn ? (
+                        <div className="home-content">
+                            {
+                                loggedIn ?
+                                    <span>
                                 <h1>Events</h1>
                                 <p>This is a simple home page</p>
                             </span> :
-                            <h1>Welcome to the Home Page</h1>
-                    }
-                    <div className="events-grid">
-                        {events.length > 0 ? (
-                            events.reverse().map(event => (
-                                <div key={event.id} className="event-card">
-                                    <h3>{event.eventName}</h3>
-                                </div>
-                            ))
-                        ) : (
+                                    <h1>Welcome to the Home Page</h1>
+                            }
+                            <div className="events-grid">
+                                {events.length > 0 ? (
+                                    events.reverse().map(event => (
+                                        <Link onClick={(e) => changeRoute(e, event.id)} to={`/events/event/${event.id}`}
+                                              key={event.id}>
+                                            <div className="event-card">
+                                                <h3>{event.eventName}</h3>
+                                            </div>
+                                        </Link>
+                                    ))
+                                ) : (
 
-                            <div className={'no-events'}>
-                                <h3>No events found.</h3>
+
+                                    <div className={'no-events'}>
+                                        <h3>No events found.</h3>
+                                    </div>
+
+                                )}
                             </div>
-
-                        )}
-                    </div>
+                        </div>
+                    ) : (
+                        <Login setLoggedIn={setLoggedIn}/>
+                    )}
                 </div>
-            ) : (
-                <Login setLoggedIn={setLoggedIn}/>
-            )}
+            }
             <ToastContainer/>
         </div>
     );

@@ -241,5 +241,6 @@ body.menu-open {
 
 /* Adjust the menu icon to be on top of everything when the menu is active */
 .menu-icon {
+
     z-index: 1000;
 }

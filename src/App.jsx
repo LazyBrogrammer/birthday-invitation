@@ -77,10 +77,10 @@ export const App = () => {
                     <Routes>
                         <Route path="/" element={<Home/>}/>
                         <Route
-                            path="/events/create-events" element={<CreateEvents/>}
+                            path="/events/create-events" element={isAuthenticated() ? <CreateEvents/> : <Login/>}
                         />
                         <Route
-                            path="/events/my-invitations" element={<MyInvitations/>}
+                            path="/events/my-invitations" element={isAuthenticated() ? <MyInvitations/> : <Login/>}
                         />
                         <Route path="/contact" element={<Contact/>}/>
                         <Route path="/login" element={<Login/>}/>

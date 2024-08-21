@@ -26,7 +26,7 @@ export const MyInvitations = () => {
                         (a, b) => new Date(a.eventStartTime) - new Date(b.eventStartTime)
                     );
                     setEvents(sortedEvents);
-                    console.log(sortedEvents);
+                    // console.log(sortedEvents[0].response);
 
                     setLoading(false);
                 } else {
@@ -64,8 +64,8 @@ export const MyInvitations = () => {
                                 <div className="event-header">
                                     <h2 className="event-name">{event.eventName}</h2>
                                     <span className={`event-status ${event.status}`}>
-                    {event.response}
-                  </span>
+                                        {event.response}
+                                     </span>
                                 </div>
                                 <p>
                                     <strong>Location:</strong> {event.location}

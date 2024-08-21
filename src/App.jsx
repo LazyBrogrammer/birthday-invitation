@@ -62,58 +62,13 @@ export const App = () => {
             });
         }
     };
-    //
-    // const handleDelete = async (eventId) => {
-    //     const token = localStorage.getItem("token");
-    //     try {
-    //         const response = await axios.delete(`${apiUrl}/invitations/invitation/${eventId}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
-    //
-    //         if (response.data.success) {
-    //             toast.success("Event deleted successfully.", {
-    //                 position: "bottom-right",
-    //                 autoClose: 3000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //             });
-    //             // Remove the deleted event from the events state
-    //             setEvents(events.filter(event => event.id !== eventId));
-    //         } else {
-    //             toast.error("Failed to delete event: " + response.data.message, {
-    //                 position: "bottom-right",
-    //                 autoClose: 3000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error("Error deleting event:", error);
-    //         toast.error("An error occurred while deleting the event. Please try again.", {
-    //             position: "bottom-right",
-    //             autoClose: 3000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: true,
-    //             draggable: true,
-    //             progress: undefined,
-    //         });
-    //     }
-    // };
+
 
     useEffect(() => {
         if (isAuthenticated()) {
             fetchEvents();
         }
-    }, [events]);
+    }, []);
 
     return (
         <MyErrorBoundary>

@@ -111,7 +111,6 @@ export const Home = ({appLoading, setAppLoading}) => {
     useEffect(() => {
         if (loggedIn) {
             fetchEvents();
-
         }
     }, [loggedIn]);
 
@@ -126,7 +125,6 @@ export const Home = ({appLoading, setAppLoading}) => {
                                     events.reverse().map(event => {
                                             return (
                                                 <div key={event.id}>
-                                                    <h1>Events</h1>
                                                     <div className="event-card">
                                                         <button className="delete-button"
                                                                 onClick={() => handleDelete(event.id)}>X

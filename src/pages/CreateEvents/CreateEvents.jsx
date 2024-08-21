@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './createEvents.css';
+import {reload} from "../../utils/reload.js";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -39,6 +40,7 @@ export const CreateEvents = () => {
                     progress: undefined,
                     onClose: () => navigate("/") // Redirect to home page after toast closes
                 });
+                // reload();
                 setEventName('');
             } else {
                 toast.error("Failed to create event: " + response.data.message, {

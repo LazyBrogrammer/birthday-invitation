@@ -15,16 +15,18 @@ import {MyInvitations} from "./pages/MyInvitaions/MyInvitations.jsx";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {isAuthenticated} from "./auth/auth.js";
-import {se} from "date-fns/locale";
 import {FillCreatedEvent} from "./components/FillCreatedEvent/FillCreatedEvent.jsx";
-
 
 export const App = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [route, setRoute] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [appLoading, setAppLoading] = useState(false);
+
     const fetchEvents = async () => {
         const organizerEmail = localStorage.getItem("email");
         const token = localStorage.getItem("token");
+        setAppLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/invitations/organizer/${organizerEmail}/events`, {
                 headers: {
@@ -33,9 +35,9 @@ export const App = () => {
             });
 
             if (response.data.success) {
-                // console.log(response.data.data);
-
                 setRoute(response.data.data);
+                setEvents(response.data.data); // Update the events state
+                setAppLoading(false);
             } else {
                 toast.error("Failed to fetch events: " + response.data.message, {
                     position: "bottom-right",
@@ -60,22 +62,68 @@ export const App = () => {
             });
         }
     };
+    //
+    // const handleDelete = async (eventId) => {
+    //     const token = localStorage.getItem("token");
+    //     try {
+    //         const response = await axios.delete(`${apiUrl}/invitations/invitation/${eventId}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //
+    //         if (response.data.success) {
+    //             toast.success("Event deleted successfully.", {
+    //                 position: "bottom-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //             });
+    //             // Remove the deleted event from the events state
+    //             setEvents(events.filter(event => event.id !== eventId));
+    //         } else {
+    //             toast.error("Failed to delete event: " + response.data.message, {
+    //                 position: "bottom-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //             });
+    //         }
+    //     } catch (error) {
+    //         console.error("Error deleting event:", error);
+    //         toast.error("An error occurred while deleting the event. Please try again.", {
+    //             position: "bottom-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             progress: undefined,
+    //         });
+    //     }
+    // };
 
-    // Use effect to fetch events when component mounts or loggedIn state changes
     useEffect(() => {
         if (isAuthenticated()) {
             fetchEvents();
         }
-    }, []);
+    }, [events]);
 
     return (
-
         <MyErrorBoundary>
             <div className="app">
                 <Router>
                     <Navbar logo={logo}/>
                     <Routes>
-                        <Route path="/" element={<Home/>}/>
+                        <Route path="/"
+                               element={<Home events={events} appLoading={appLoading} setAppLoading={setAppLoading}
+                               />}/>
                         <Route
                             path="/events/create-events" element={isAuthenticated() ? <CreateEvents/> : <Login/>}
                         />
@@ -96,6 +144,5 @@ export const App = () => {
                 <ToastContainer/>
             </div>
         </MyErrorBoundary>
-
     );
 };

@@ -28,7 +28,8 @@ export const FillCreatedEvent = ({data}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        document.navTitle = "Fill Event";
+
+
         const getEvents = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/invitations/invitation/${data.id}`, {
@@ -352,9 +353,7 @@ export const FillCreatedEvent = ({data}) => {
                             {isComplete ? "Create Event" : "Save"}
                         </button>
                     </form>
-
                 </div>
-
             </div>
             <ToastContainer/>
         </>

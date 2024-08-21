@@ -23,7 +23,6 @@ export const CreateEvents = () => {
         };
 
         try {
-            console.log(eventData);
             const response = await axios.post(apiUrl + "/invitations/invitationByName", eventData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -32,7 +31,7 @@ export const CreateEvents = () => {
             if (response.data.success) {
                 toast.success("Event created successfully!", {
                     position: "bottom-right",
-                    autoClose: 3000,
+                    autoClose: 1500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,

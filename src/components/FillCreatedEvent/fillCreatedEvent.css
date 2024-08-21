@@ -1,5 +1,5 @@
 /* Container for the whole events section */
-.events-container {
+.fill-events-container {
     width: 100vw;
     min-height: 100vh;
     display: flex;

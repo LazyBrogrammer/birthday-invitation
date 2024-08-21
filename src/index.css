@@ -43,8 +43,11 @@ button {
 
 body, button {
     font-family: "Chakra Petch", sans-serif;
-    oveflow-x: hidden;
+
 }
 
+html {
+    overflow-x: hidden;
+}
 
 /* Add your custom styles below this line */

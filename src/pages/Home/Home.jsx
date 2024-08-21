@@ -30,6 +30,7 @@ export const Home = () => {
                 },
             });
 
+
             if (response.data.success) {
                 setEvents(response.data.data);
                 setLoading(false);
@@ -71,7 +72,7 @@ export const Home = () => {
     //     // navigate('events/event/' + e.target.id)
     // }
     return (
-        <div className="home">
+        <div className="home-container">
             <div className="video-background">
                 <video autoPlay loop muted>
                     <source src={video} type="video/mp4"/>
@@ -101,7 +102,6 @@ export const Home = () => {
                                         </Link>
                                     ))
                                 ) : (
-
 
                                     <div className={'no-events'}>
                                         <h3>No events found.</h3>

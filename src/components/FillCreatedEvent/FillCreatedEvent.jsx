@@ -28,6 +28,7 @@ export const FillCreatedEvent = ({data}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.navTitle = "Fill Event";
         const getEvents = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/invitations/invitation/${data.id}`, {
@@ -138,7 +139,7 @@ export const FillCreatedEvent = ({data}) => {
 
     return (
         <>
-            <div className="events-container">
+            <div className="fill-events-container">
                 <div className="events">
                     <h2>{isComplete ? "Create Event" : "Save Event"}</h2>
                     <form className="event-form" onSubmit={handleSubmit}>

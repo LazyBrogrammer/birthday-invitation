@@ -11,11 +11,16 @@ import {Link, useNavigate} from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export const Home = ({appLoading, setAppLoading}) => {
+export const Home = ({route, setRoute}) => {
     const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
+    // const [homeRoute, setHomeRoute] = useState([])
+
+    const updateRoutes = (data) => {
+        setRoute(data)
+    }
 
 
     // Function to fetch events
@@ -33,7 +38,7 @@ export const Home = ({appLoading, setAppLoading}) => {
             if (response.data.success) {
                 setEvents(response.data.data);
                 setLoading(false);
-                // setAppLoading(true)
+                updateRoutes(response.data.data)
 
             } else {
                 toast.error("Failed to fetch events: " + response.data.message, {

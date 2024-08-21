@@ -77,8 +77,7 @@ export const App = () => {
                     <Navbar logo={logo}/>
                     <Routes>
                         <Route path="/"
-                               element={<Home events={events} appLoading={appLoading} setAppLoading={setAppLoading}
-                               />}/>
+                               element={<Home route={route} setRoute={setRoute}/>}/>
                         <Route
                             path="/events/create-events" element={isAuthenticated() ? <CreateEvents/> : <Login/>}
                         />

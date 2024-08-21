@@ -1,7 +1,7 @@
 import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import {ErrorBoundary} from "react-error-boundary";
 
-const ErrorFallback = ({ error, resetErrorBoundary }) => {
+const ErrorFallback = ({error, resetErrorBoundary}) => {
     return (
         <div role="alert">
             <p>:Server not working</p>
@@ -11,12 +11,15 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
     );
 };
 
-export const MyErrorBoundary = ({ children }) => {
+export const MyErrorBoundary = ({children}) => {
     return (
         <ErrorBoundary
             FallbackComponent={ErrorFallback}
             onReset={() => {
+
                 // reset the state of your app here if needed
+
+
             }}
         >
             {children}

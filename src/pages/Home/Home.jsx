@@ -16,7 +16,6 @@ export const Home = () => {
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
-    // console.log(events)
 
     // Function to fetch events
     const fetchEvents = async () => {
@@ -29,7 +28,6 @@ export const Home = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
 
             if (response.data.success) {
                 setEvents(response.data.data);
@@ -59,54 +57,88 @@ export const Home = () => {
         }
     };
 
+    // Function to handle event deletion
+    const handleDelete = async (eventId) => {
+        const token = localStorage.getItem("token");
+        try {
+            const response = await axios.delete(`${apiUrl}/invitations/invitation/${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.data.success) {
+                toast.success("Event deleted successfully.", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                // Remove the deleted event from the events state
+                setEvents(events.filter(event => event.id !== eventId));
+            } else {
+                toast.error("Failed to delete event: " + response.data.message, {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } catch (error) {
+            console.error("Error deleting event:", error);
+            toast.error("An error occurred while deleting the event. Please try again.", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
     // Use effect to fetch events when component mounts or loggedIn state changes
     useEffect(() => {
         if (loggedIn) {
             fetchEvents();
         }
-        // console.log(events)
-
     }, [loggedIn]);
 
-    // const changeRoute = (e) => {
-    //     // navigate('events/event/' + e.target.id)
-    // }
     return (
-        <div className="home-container">
-            {/*<div className="video-background">*/}
-            {/*    <video autoPlay loop muted>*/}
-            {/*        <source src={video} type="video/mp4"/>*/}
-            {/*        Your browser does not support the video tag.*/}
-            {/*    </video>*/}
-            {/*</div>*/}
+        <div className={events.length > 0 ? 'home-container' : "no-events-container"}>
             {
                 loading ? <Loader/> : <div>
                     {loggedIn ? (
                         <div className="home-content">
-                            {
-                                loggedIn ?
-                                    <span>
-                                <h1>Events</h1>
-                                <p>This is a simple home page</p>
-                            </span> :
-                                    <h1>Welcome to the Home Page</h1>
-                            }
                             <div className="events-grid">
                                 {events.length > 0 ? (
-                                    events.reverse().map(event => (
-                                        <Link to={`/events/event/${event.id}`} key={event.id}>
-                                            <div id={event.id}
-                                                 className="event-card">
-                                                <h3>{event.eventName}</h3>
-                                            </div>
-                                        </Link>
-                                    ))
+                                    events.reverse().map(event => {
+                                            return (
+                                                <div key={event.id}>
+                                                    <h1>Events</h1>
+                                                    <div className="event-card">
+                                                        <button className="delete-button"
+                                                                onClick={() => handleDelete(event.id)}>X
+                                                        </button>
+                                                        <Link to={`/events/event/${event.id}`}>
+                                                            <h3>{event.eventName}</h3>
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                    )
                                 ) : (
-
-                                    <div className={'no-events'}>
+                                    <div className="no-events">
                                         <h3>No events found.</h3>
                                     </div>
-
                                 )}
                             </div>
                         </div>

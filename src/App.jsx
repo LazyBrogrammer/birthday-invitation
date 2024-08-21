@@ -8,7 +8,7 @@ import {Home} from "./pages/Home/Home.jsx";
 import {Contact} from "./pages/Contact/Contact.jsx";
 import {Login} from "./pages/Login/Login.jsx";
 import {Register} from "./pages/Register/Register.jsx";
-import {toast, ToastContainer} from "react-toastify";
+import toast, {Toaster} from 'react-hot-toast';
 import {MyErrorBoundary} from "./components/MyErrorBoundary/MyErrorBoundary.jsx";
 import {CreateEvents} from "./pages/CreateEvents/CreateEvents.jsx";
 import {MyInvitations} from "./pages/MyInvitaions/MyInvitations.jsx";
@@ -95,7 +95,7 @@ export const App = () => {
                         }
                     </Routes>
                 </Router>
-                <ToastContainer/>
+                <Toaster/>
             </div>
         </MyErrorBoundary>
     );

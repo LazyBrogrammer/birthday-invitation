@@ -40,7 +40,7 @@ export const Login = ({setLoggedIn}) => {
 
                 setTimeout(() => {
                     navigate("/");
-                }, 3000);
+                }, 1500);
             } else {
                 setLoading(false);
                 toast.error("This didn't work. 1", {

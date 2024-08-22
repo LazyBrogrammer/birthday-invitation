@@ -32,7 +32,7 @@ export const Login = ({setLoggedIn}) => {
                 localStorage.setItem("token", token);
                 localStorage.setItem("email", email);
                 setLoading(false);
-                toast.success('Successfully created!', {
+                toast.success('Login successfully', {
                     position: 'bottom-right'
                 });
 

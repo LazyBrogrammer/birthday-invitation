@@ -88,10 +88,16 @@ export const App = () => {
                         <Route path="/contact" element={<Contact/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
-                        <Route path='/event-info' element={<EventInfo/>}/>
+                        
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}
                                                         element={<FillCreatedEvent data={route}/>}
+                                />
+                            )
+                        }
+                        {
+                            route.map((route) => <Route key={route.id} path={`/event-info/${route.id}`}
+                                                        element={<EventInfo data={route}/>}
                                 />
                             )
                         }

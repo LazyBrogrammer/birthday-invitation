@@ -160,7 +160,7 @@ export const Home = ({route, setRoute}) => {
                                                             </Link>
                                                             {
                                                                 event.openable ?
-                                                                    <Link to={'/event-info'}>
+                                                                    <Link to={`/event-info/${event.id}`}>
                                                                         <button
                                                                             className='btn-show'>Open
                                                                         </button>

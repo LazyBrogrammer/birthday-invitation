@@ -58,6 +58,9 @@
 .no-events-container {
     width: 100%;
     height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .no-events-card {
@@ -67,6 +70,8 @@
     border-radius: 10px !important;
     text-align: center !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+
+
 }
 
 .accordion-header {

@@ -16,6 +16,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {isAuthenticated} from "./auth/auth.js";
 import {FillCreatedEvent} from "./components/FillCreatedEvent/FillCreatedEvent.jsx";
+import {EventInfo} from "./pages/EventInfo/EventInfo.jsx";
 
 export const App = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -87,6 +88,7 @@ export const App = () => {
                         <Route path="/contact" element={<Contact/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
+                        <Route path='/event-info' element={<EventInfo/>}/>
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}
                                                         element={<FillCreatedEvent data={route}/>}

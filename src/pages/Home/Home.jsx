@@ -22,6 +22,21 @@ export const Home = ({route, setRoute}) => {
         setRoute(data)
     }
 
+    const showToastInDisabledBtn = () => {
+        console.log("toast");
+        toast.info('Please create event fully!', {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            // transition: Bounce,
+        });
+    }
+
 
     // Function to fetch events
     const fetchEvents = async () => {
@@ -34,6 +49,7 @@ export const Home = ({route, setRoute}) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(response)
 
             if (response.data.success) {
                 setEvents(response.data.data);
@@ -134,9 +150,24 @@ export const Home = ({route, setRoute}) => {
                                                         <button className="delete-button"
                                                                 onClick={() => handleDelete(event.id)}>X
                                                         </button>
-                                                        <Link to={`/events/event/${event.id}`}>
-                                                            <h3>{event.eventName}</h3>
-                                                        </Link>
+                                                        <h3>{event.eventName}</h3>
+
+                                                        <div className='btn-groups'>
+                                                            <Link to={`/events/event/${event.id}`}>
+                                                                <button className='btn-edit'>
+                                                                    Edit
+                                                                </button>
+                                                            </Link>
+                                                            {
+                                                                event.openable ?
+                                                                    <button
+                                                                        className='btn-show'>Open
+                                                                    </button> : <button
+                                                                        onClick={showToastInDisabledBtn}
+                                                                        className='btn-show btn-disabled'>Open
+                                                                    </button>
+                                                            }
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )

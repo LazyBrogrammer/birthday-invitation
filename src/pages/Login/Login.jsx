@@ -24,13 +24,13 @@ export const Login = ({setLoggedIn}) => {
                 password,
             });
 
-            console.log(response.data)
-
 
             if (response.data.success) {
+
                 const token = response.data.data.token;
                 localStorage.setItem("token", token);
                 localStorage.setItem("email", email);
+                localStorage.setItem('user-name', response.data.data.name)
                 setLoading(false);
                 toast.success('Login successfully', {
                     position: 'bottom-right'
@@ -80,7 +80,7 @@ export const Login = ({setLoggedIn}) => {
 
             } else {
                 setLoading(false);
-                toast.error("This didn't work. 3")
+
 
             }
         } finally {

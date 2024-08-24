@@ -117,7 +117,7 @@ export const FillCreatedEvent = ({data}) => {
                 },
             });
             if (response.data.success) {
-                toast.success("Event saved successfully!", {
+                toast.success("Event created successfully!", {
                     position: "bottom-right",
                     autoClose: 3000,
                 });

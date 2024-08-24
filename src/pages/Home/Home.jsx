@@ -143,7 +143,7 @@ export const Home = ({route, setRoute}) => {
                         <div className="home-content">
                             <div className="events-grid">
                                 {events.length > 0 ? (
-                                    events.reverse().map(event => {
+                                    events.map(event => {
                                             return (
                                                 <div key={event.id}>
                                                     <div className="event-card">

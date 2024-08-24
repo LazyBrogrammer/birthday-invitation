@@ -41,7 +41,7 @@ export const EventInfo = ({data}) => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="event-details">
+        <div className="event-info">
             {eventData && eventData.map(event => (
                 <div key={event.id} className="event-card">
                     <h3>{event.eventName}</h3>

@@ -25,11 +25,10 @@ export const FillCreatedEvent = ({data}) => {
         note: ""
     }]);
     const [isComplete, setIsComplete] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-
-
         const getEvents = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/invitations/invitation/${data.id}`, {
@@ -87,6 +86,7 @@ export const FillCreatedEvent = ({data}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         const guestEmailMatch = guests.some(guest => guest.email === organizerEmail);
         if (guestEmailMatch) {
@@ -94,6 +94,7 @@ export const FillCreatedEvent = ({data}) => {
                 position: "bottom-right",
                 autoClose: 3000,
             });
+            setIsSubmitting(false);
             return;
         }
 
@@ -116,7 +117,7 @@ export const FillCreatedEvent = ({data}) => {
                 },
             });
             if (response.data.success) {
-                toast.success("Event saved successfully!", {
+                toast.success("Event created successfully!", {
                     position: "bottom-right",
                     autoClose: 3000,
                 });
@@ -135,6 +136,8 @@ export const FillCreatedEvent = ({data}) => {
                 position: "bottom-right",
                 autoClose: 3000,
             });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -349,8 +352,13 @@ export const FillCreatedEvent = ({data}) => {
                                 </div>
                             ))}
                         </div>
-                        <button className="create-event" type="submit">
-                            {isComplete ? "Create Event" : "Save"}
+                        <button className="create-event" type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? (
+                                <span style={{display: "flex"}}><div className="loader"></div>
+                                    &nbsp; Create event</span>
+                            ) : (
+                                isComplete ? "Create Event" : "Save"
+                            )}
                         </button>
                     </form>
                 </div>

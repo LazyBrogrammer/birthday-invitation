@@ -26,7 +26,6 @@ export const Login = ({setLoggedIn}) => {
 
 
             if (response.data.success) {
-
                 const token = response.data.data.token;
                 localStorage.setItem("token", token);
                 localStorage.setItem("email", email);

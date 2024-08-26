@@ -26,6 +26,7 @@ export const FillCreatedEvent = ({data}) => {
     }]);
     const [isComplete, setIsComplete] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [canAddItems, setCanAddItems] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -77,12 +78,13 @@ export const FillCreatedEvent = ({data}) => {
             eventStartTime &&
             eventEndTime &&
             location &&
-            instructions &&
-            guests.every(guest => guest.email && guest.name && guest.role) &&
-            subEvent.every(sub => sub.partName && sub.startTime && sub.endTime && sub.location && sub.instruction && sub.note);
+            note &&
+            instructions;
 
         setIsComplete(allFieldsFilled);
-    }, [eventName, eventStartTime, eventEndTime, location, note, instructions, guests, subEvent]);
+
+        setCanAddItems(allFieldsFilled);
+    }, [eventName, eventStartTime, eventEndTime, location, note, instructions]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -206,8 +208,11 @@ export const FillCreatedEvent = ({data}) => {
                             </div>
                         </div>
                         <h3>Guests</h3>
-                        <button type="button" className="add-button"
-                                onClick={() => setGuests([...guests, {email: "", name: "", role: "GUEST"}])}>
+                        <button type="button" className="add-button" onClick={() => setGuests([...guests, {
+                            email: "",
+                            name: "",
+                            role: "GUEST"
+                        }])} disabled={!canAddItems}>
                             Add Guest
                         </button>
                         <div className="guests-container">
@@ -268,7 +273,7 @@ export const FillCreatedEvent = ({data}) => {
                             location: "",
                             instruction: "",
                             note: ""
-                        }])}>
+                        }])} disabled={!canAddItems}>
                             Add Sub-Event
                         </button>
                         <div className="subevents-container">

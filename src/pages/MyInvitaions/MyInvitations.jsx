@@ -11,6 +11,7 @@ export const MyInvitations = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(false);
 
+
     useEffect(() => {
         setLoading(true);
         const fetchEvents = async () => {

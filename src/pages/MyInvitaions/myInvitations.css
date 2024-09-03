@@ -180,20 +180,25 @@
     transform: scale(0.8); /* Start slightly smaller for scale effect */
     opacity: 0; /* Start with 0 opacity for fade-in */
     animation: popupScaleIn 0.3s forwards; /* Scale-in animation */
+    overflow: hidden;
 }
 
 /* Close button inside the popup */
-.close-button {
+#close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     width: 24px;
     height: 24px;
-    top: -10px;
-    right: -10px;
+    top: 10px;
+    right: 10px;
     background: red;
     color: white;
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    z-index: 999;
 }
 
 /* Fade-in animation for the overlay */
@@ -223,5 +228,4 @@
     background-color: #4caf50;
     min-width: 200px;
     margin: 10px auto;
-
 }

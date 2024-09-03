@@ -410,7 +410,7 @@
     position: relative;
 }
 
-.close-button {
+#close-button {
     position: sticky;
     top: 0;
     margin-top: 5px;

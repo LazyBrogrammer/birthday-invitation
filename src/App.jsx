@@ -18,6 +18,7 @@ import {FillCreatedEvent} from "./components/FillCreatedEvent/FillCreatedEvent.j
 import {EventInfo} from "./pages/EventInfo/EventInfo.jsx";
 import {Dashboard} from "./pages/Dashboard/Dashboard.jsx";
 import {SubEvents} from "./components/SubEvents/SubEvents.jsx";
+import {GreetingBoard} from "./components/GreetingBoard/GreetingBoard.jsx";
 
 export const App = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -91,6 +92,7 @@ export const App = () => {
                         <Route path="/register" element={<Register/>}/>
                         <Route path='/dashboard' element={<Dashboard/>}/>
                         <Route path={'/events/my-invitations/events/sub-events'} element={<SubEvents/>}/>
+                        {/*<Route path={'/events/greeting-board'} element={<GreetingBoard/>}/>*/}
 
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}

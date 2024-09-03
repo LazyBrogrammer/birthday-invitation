@@ -2,7 +2,8 @@ import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import "./myInvitations.css";
 import {Loader} from "../../components/Loader/Loader.jsx";
-import {Link} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
+import {GreetingBoard} from "../../components/GreetingBoard/GreetingBoard.jsx";
 
 export const MyInvitations = () => {
     const [events, setEvents] = useState([]);
@@ -14,6 +15,8 @@ export const MyInvitations = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedEventId, setSelectedEventId] = useState(null);
     const popupRef = useRef(null);
+    const [eventId, setEventId] = useState(null);
+
 
     useEffect(() => {
         setLoading(true);
@@ -44,6 +47,7 @@ export const MyInvitations = () => {
     const handlePopupOpen = (eventId) => {
         setSelectedEventId(eventId);
         setShowPopup(true);
+        setEventId(eventId)
     };
 
     const handlePopupClose = () => {
@@ -121,11 +125,11 @@ export const MyInvitations = () => {
                                     <button
                                         className="btn-my-invitations"
                                         onClick={() => handlePopupOpen(event.id)} // Add onClick handler
-                                    >
-                                        Open →
+                                    > Open →
+
                                     </button>
                                 )}
-                                
+
                             </div>
                         ))
                     )}
@@ -134,12 +138,16 @@ export const MyInvitations = () => {
             {showPopup && (
                 <div className="popup-overlay full-screen">
                     <div className="popup-content" ref={popupRef}>
-                        <button className="close-button" onClick={handlePopupClose}>X</button>
+                        <button id="close-button" onClick={handlePopupClose}>X</button>
                         <h3>Event Actions</h3>
                         <button className="route-btn"><Link to={'/events/my-invitations/events/sub-events'}>Event
                             Schedule</Link></button>
-                        <button className="route-btn" onClick={() => alert('Action 2')}>Media Gallery</button>
-                        <button className="route-btn" onClick={() => alert('Action 3')}>Greeting Board</button>
+                        <button className="route-btn" onClick={() => alert('Media Gallery')}>Media Gallery</button>
+                        <button className="route-btn">
+                            <Link to={'/events/greeting-board'}>
+                                Greeting Board
+                            </Link>
+                        </button>
                     </div>
                 </div>
             )}

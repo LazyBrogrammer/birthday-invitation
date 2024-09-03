@@ -24,7 +24,6 @@ export const Login = ({setLoggedIn}) => {
                 password,
             });
 
-
             if (response.data.success) {
                 const token = response.data.data.token;
                 localStorage.setItem("token", token);

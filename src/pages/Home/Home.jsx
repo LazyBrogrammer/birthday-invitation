@@ -147,14 +147,14 @@ export const Home = ({route, setRoute}) => {
                                                             Edit
                                                         </button>
                                                     </Link>
-
+                                                    
                                                     <Link to={`/event-info/${event.id}`}>
                                                         <button
                                                             className='btn-show'>Open
                                                         </button>
                                                     </Link>
 
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>

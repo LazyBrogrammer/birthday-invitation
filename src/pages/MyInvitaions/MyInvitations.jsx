@@ -125,36 +125,7 @@ export const MyInvitations = () => {
                                         Open →
                                     </button>
                                 )}
-                                {event.subEvents.length > 0 && (
-                                    <div className="sub-events">
-                                        <h4>Sub Events:</h4>
-                                        {event.subEvents.map((sub) => (
-                                            <div key={sub.id} className="sub-event">
-                                                <div
-                                                    className="accordion-header"
-                                                    onClick={() => toggleAccordion(`${event.id}-${sub.id}`)}
-                                                >
-                                                    <p><strong>Part Name:</strong> {sub.partName}</p>
-                                                    <span>
-                                                        {expandedSubEvent === `${event.id}-${sub.id}` ? "-" : "+"}
-                                                    </span>
-                                                </div>
-                                                {expandedSubEvent === `${event.id}-${sub.id}` && (
-                                                    <div className="accordion-content">
-                                                        <p>
-                                                            <strong>Start:</strong> {new Date(sub.startTime).toLocaleString()}
-                                                        </p>
-                                                        <p>
-                                                            <strong>End:</strong> {new Date(sub.endTime).toLocaleString()}
-                                                        </p>
-                                                        <p><strong>Location:</strong> {sub.location}</p>
-                                                        <p><strong>Note:</strong> {sub.note}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                
                             </div>
                         ))
                     )}

@@ -25,14 +25,15 @@ export const MyInvitations = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                if (response.data.success) {
-                    const sortedEvents = response.data.data.sort(
-                        (a, b) => new Date(a.eventStartTime) - new Date(b.eventStartTime)
-                    );
-                    setEvents(sortedEvents);
-                    setLoading(false);
-                    console.log(events)
+                console.log(response)
 
+                if (response.data.success) {
+                    // const sortedEvents = response.data.data.sort(
+                    //     (a, b) => new Date(a.eventStartTime) - new Date(b.eventStartTime)
+                    // );
+                    setEvents(response.data.data);
+
+                    setLoading(false);
                 } else {
                     console.error("Failed to fetch events:", response.data.message);
                 }
@@ -120,7 +121,7 @@ export const MyInvitations = () => {
                                 ) : (
                                     <button
                                         className="btn-my-invitations"
-                                        onClick={() => handlePopupOpen(event.id)} // Add onClick handler
+                                        onClick={() => handlePopupOpen(event.eventId)} // Add onClick handler
                                     > Open →
 
                                     </button>

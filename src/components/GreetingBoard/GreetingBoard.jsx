@@ -11,12 +11,13 @@ export const GreetingBoard = () => {
     const [error, setError] = useState(null);
     const modalRef = useRef(null);
 
-    const guestEmail = localStorage.getItem('email'); // Assuming guestEmail is stored in localStorage
+    const guestEmail = localStorage.getItem('email');
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token');
+    const email = localStorage.getItem('email')
 
     const eventId = window.location.pathname.split('/')[3]
-    const greetingUrl = `${apiUrl}/greetings/allGreetings/${eventId}`;
+    const greetingUrl = `${apiUrl}/greetings/event/${eventId}?email=${email}`;
 
     useEffect(() => {
         const fetchGreetings = async () => {
@@ -58,7 +59,7 @@ export const GreetingBoard = () => {
         const writtenDate = new Date().toISOString(); // Get the current date in ISO format
 
         try {
-            const response = await axios.post(`${apiUrl}/greetings/addGreeting`, {
+            const response = await axios.post(`${apiUrl}/greetings/add`, {
                 eventId,
                 guestEmail,
                 message,

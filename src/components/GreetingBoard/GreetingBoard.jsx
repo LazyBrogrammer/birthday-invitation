@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
-import './greetingBoard.css';
+import './greetingboard.css';
 import {Loader} from "../Loader/Loader.jsx";
 
 export const GreetingBoard = () => {

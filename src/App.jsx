@@ -17,6 +17,7 @@ import {isAuthenticated} from "./auth/auth.js";
 import {FillCreatedEvent} from "./components/FillCreatedEvent/FillCreatedEvent.jsx";
 import {EventInfo} from "./pages/EventInfo/EventInfo.jsx";
 import {Dashboard} from "./pages/Dashboard/Dashboard.jsx";
+import {SubEvents} from "./components/SubEvents/SubEvents.jsx";
 
 export const App = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -89,6 +90,7 @@ export const App = () => {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
                         <Route path='/dashboard' element={<Dashboard/>}/>
+                        <Route path={'/events/my-invitations/events/sub-events'} element={<SubEvents/>}/>
 
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}

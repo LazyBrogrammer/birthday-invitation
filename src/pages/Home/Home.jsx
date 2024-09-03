@@ -15,9 +15,6 @@ export const Home = ({route, setRoute}) => {
     const [loggedIn, setLoggedIn] = useState(isAuthenticated());
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
-    const [selectedEventId, setSelectedEventId] = useState(null);
-    const popupRef = useRef(null);
 
     const updateRoutes = (data) => {
         setRoute(data);
@@ -127,26 +124,6 @@ export const Home = ({route, setRoute}) => {
         }
     }, [loggedIn]);
 
-    const handlePopupOpen = (eventId) => {
-        setSelectedEventId(eventId);
-        setShowPopup(true);
-    };
-
-    const handlePopupClose = () => {
-        setShowPopup(false);
-    };
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (popupRef.current && !popupRef.current.contains(event.target)) {
-                handlePopupClose();
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     return (
         <div className={events.length > 0 ? 'home-container' : "no-events-container"}>
@@ -157,45 +134,24 @@ export const Home = ({route, setRoute}) => {
                             <div className="events-grid">
                                 {events.length > 0 ? (
                                     events.map(event => (
-                                        <>
-                                            <div key={event.id}>
-                                                <div className="event-card">
-                                                    <button className="delete-button"
-                                                            onClick={() => handleDelete(event.id)}>X
-                                                    </button>
-                                                    <h3>{event.eventName}</h3>
+                                        <div key={event.id}>
+                                            <div className="event-card">
+                                                <button className="delete-button"
+                                                        onClick={() => handleDelete(event.id)}>X
+                                                </button>
+                                                <h3>{event.eventName}</h3>
 
-                                                    <div className='btn-groups'>
-                                                        <Link to={`/events/event/${event.id}`}>
-                                                            <button className='btn-edit'>
-                                                                Edit
-                                                            </button>
-                                                        </Link>
-                                                        <button className='btn-show'
-                                                                onClick={() => handlePopupOpen(event.id)}>Open
+                                                <div className='btn-groups'>
+                                                    <Link to={`/events/event/${event.id}`}>
+                                                        <button className='btn-edit'>
+                                                            Edit
                                                         </button>
-                                                    </div>
+                                                    </Link>
+                                                    <button className='btn-show'>Open
+                                                    </button>
                                                 </div>
                                             </div>
-                                            {showPopup && (
-                                                <div className="popup-overlay">
-                                                    <div className="popup-content" ref={popupRef}>
-                                                        <button className="close-button" onClick={handlePopupClose}>X
-                                                        </button>
-                                                        <h3>Event Actions</h3>
-                                                        <Link to={`/event-info/${event.id}`}>
-                                                            <button className={'route-btn'}>Event Schedule</button>
-                                                        </Link>
-                                                        <button className={'route-btn'}
-                                                                onClick={() => alert('Action 2')}>Media Gallery
-                                                        </button>
-                                                        <button className={'route-btn'}
-                                                                onClick={() => alert('Action 3')}>Greeting Board
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </>
+                                        </div>
                                     ))
                                 ) : (
                                     <div className="no-events">

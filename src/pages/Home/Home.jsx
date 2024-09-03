@@ -147,8 +147,18 @@ export const Home = ({route, setRoute}) => {
                                                             Edit
                                                         </button>
                                                     </Link>
-                                                    <button className='btn-show'>Open
-                                                    </button>
+                                                    {
+                                                        event.openable ?
+                                                            <Link to={`/event-info/${event.id}`}>
+                                                                <button
+                                                                    className='btn-show'>Open
+                                                                </button>
+                                                            </Link>
+                                                            : <button
+                                                                onClick={showToastInDisabledBtn}
+                                                                className='btn-show btn-disabled'>Open
+                                                            </button>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

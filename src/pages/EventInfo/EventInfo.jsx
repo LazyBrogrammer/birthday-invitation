@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import './eventinfo.css';
 import {Loader} from "../../components/Loader/Loader.jsx";
@@ -7,9 +7,20 @@ export const EventInfo = ({data}) => {
     const [eventData, setEventData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [popupContent, setPopupContent] = useState(null);
     const [showSubEventPopup, setShowSubEventPopup] = useState(false);
-    const [showGuestPopup, setShowGuestPopup] = useState(false)
+    const [showGuestPopup, setShowGuestPopup] = useState(false);
+    const [guestForms, setGuestForms] = useState([{email: '', name: '', role: 'GUEST'}]);
+    const [subEventForms, setSubEventForms] = useState([{
+        endTime: '',
+        instruction: '',
+        location: '',
+        note: '',
+        partName: '',
+        startTime: ''
+    }]);
+
+    const guestPopupRef = useRef(null);
+    const subEventPopupRef = useRef(null);
 
     const email = localStorage.getItem('email');
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -39,19 +50,89 @@ export const EventInfo = ({data}) => {
         fetchEventData();
     }, []);
 
-    const openGuestPopup = () => {
-        setShowGuestPopup(true);
-    };
-    const openSubEventPopup = () => {
-        setShowSubEventPopup(true);
+    const handleClickOutside = (event) => {
+        if (guestPopupRef.current && !guestPopupRef.current.contains(event.target)) {
+            setShowGuestPopup(false);
+        }
+        if (subEventPopupRef.current && !subEventPopupRef.current.contains(event.target)) {
+            setShowSubEventPopup(false);
+        }
     };
 
-    const closeGuestPopup = () => {
-        setShowGuestPopup(false);
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleGuestSubmit = async () => {
+        try {
+            const response = await axios.post(`${apiUrl}/invitations/addGuests`, {
+                eventId: data.id,
+                guests: guestForms,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.data.success) {
+                alert("Guests added successfully!");
+                setShowGuestPopup(false);
+            } else {
+                alert("Failed to add guests.");
+            }
+        } catch (error) {
+            console.error("Error adding guests:", error);
+        }
     };
-    const closeSubEventPopup = () => {
-        setShowSubEventPopup(false);
+
+    const handleSubEventSubmit = async () => {
+        try {
+            const response = await axios.post(`${apiUrl}/invitations/addSubEvents`, {
+                eventId: data.id,
+                subEvents: subEventForms,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.data.success) {
+                alert("Sub-Events added successfully!");
+                setShowSubEventPopup(false);
+            } else {
+                alert("Failed to add sub-events.");
+            }
+        } catch (error) {
+            console.error("Error adding sub-events:", error);
+        }
     };
+
+    const addGuestForm = () => {
+        setGuestForms([...guestForms, {email: '', name: '', role: 'GUEST'}]);
+    };
+
+    const addSubEventForm = () => {
+        setSubEventForms([...subEventForms, {
+            endTime: '',
+            instruction: '',
+            location: '',
+            note: '',
+            partName: '',
+            startTime: ''
+        }]);
+    };
+
+    const removeGuestForm = (index) => {
+        setGuestForms(guestForms.filter((_, i) => i !== index));
+    };
+
+    const removeSubEventForm = (index) => {
+        setSubEventForms(subEventForms.filter((_, i) => i !== index));
+    };
+
     if (loading) return <Loader/>;
     if (error) return <p>{error}</p>;
 
@@ -68,10 +149,9 @@ export const EventInfo = ({data}) => {
 
                     <div className='btn-wrapper'>
                         <h4>Guests:</h4>
-                        <button onClick={() => openGuestPopup()}>Add guest</button>
+                        <button onClick={() => setShowGuestPopup(true)}>Add Guest</button>
                     </div>
                     <ul>
-
                         {event.guests.map(guest => (
                             <li key={guest.id}>
                                 <p><strong>Name:</strong> {guest.name}</p>
@@ -80,17 +160,15 @@ export const EventInfo = ({data}) => {
                                 <p><strong>Response:</strong>
                                     <span className={guest.response}>{guest.response}</span>
                                 </p>
-
                             </li>
                         ))}
                     </ul>
 
                     <div className='btn-wrapper'>
                         <h4>Sub-Events:</h4>
-                        <button onClick={() => openSubEventPopup()}>Add sub event</button>
+                        <button onClick={() => setShowSubEventPopup(true)}>Add Sub Event</button>
                     </div>
                     <ul>
-
                         {event.subEvent.map(sub => (
                             <li key={sub.id}>
                                 <p><strong>Sub-Event Name:</strong> {sub.name}</p>
@@ -99,178 +177,149 @@ export const EventInfo = ({data}) => {
                                 <p><strong>Location:</strong> {sub.location}</p>
                                 <p><strong>Instruction:</strong> {sub.instruction}</p>
                                 <p><strong>Note:</strong> {sub.note}</p>
-
                             </li>
                         ))}
                     </ul>
                 </div>
             ))}
-            {
-                showGuestPopup && (
-                    <div className='popup'>
-                        <div className='popup-content'>
-                            <h3>Guests</h3>
-                            <button type="button" className="add-button" onClick={() => setGuests([...guests, {
-                                email: "",
-                                name: "",
-                                role: "GUEST"
-                            }])} disabled={!canAddItems}>
-                                Add Guest
-                            </button>
-                            <div className="guests-container">
-                                {guests.map((guest, index) => (
-                                    <div key={index} className="guest-item">
-                                        <label htmlFor={`guest-email-${index}`}>Guest Email:</label>
-                                        <input
-                                            id={`guest-email-${index}`}
-                                            type="email"
-                                            value={guest.email}
-                                            onChange={(e) => {
-                                                const newGuests = [...guests];
-                                                newGuests[index].email = e.target.value;
-                                                setGuests(newGuests);
-                                            }}
-                                        />
-                                        <label htmlFor={`guest-name-${index}`}>Guest Name:</label>
-                                        <input
-                                            id={`guest-name-${index}`}
-                                            type="text"
-                                            value={guest.name}
-                                            onChange={(e) => {
-                                                const newGuests = [...guests];
-                                                newGuests[index].name = e.target.value;
-                                                setGuests(newGuests);
-                                            }}
-                                        />
-                                        <label htmlFor={`guest-role-${index}`}>Role:</label>
-                                        <select
-                                            id={`guest-role-${index}`}
-                                            value={guest.role}
-                                            onChange={(e) => {
-                                                const newGuests = [...guests];
-                                                newGuests[index].role = e.target.value;
-                                                setGuests(newGuests);
-                                            }}
-                                        >
-                                            <option value="GUEST">GUEST</option>
-                                            <option value="ADMIN">ADMIN</option>
-                                        </select>
-                                        {guests.length > 1 && (
-                                            <button
-                                                type="button"
-                                                className="remove-button"
-                                                onClick={() => setGuests(guests.filter((_, i) => i !== index))}
-                                            >
-                                                Remove
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
+
+            {/* Guest Popup */}
+            {showGuestPopup && (
+                <div className="popup-overlay">
+                    <div className="popup-content" ref={guestPopupRef}>
+                        <button className="close-button" onClick={() => setShowGuestPopup(false)}>X</button>
+                        <h3>Add Guests</h3>
+                        {guestForms.map((guest, index) => (
+                            <div key={index} className="form-card">
+                                <label>Email:</label>
+                                <input
+                                    type="email"
+                                    placeholder="Guest Email"
+                                    value={guest.email}
+                                    onChange={e => {
+                                        const updatedGuests = [...guestForms];
+                                        updatedGuests[index].email = e.target.value;
+                                        setGuestForms(updatedGuests);
+                                    }}
+                                />
+                                <label>Name:</label>
+                                <input
+                                    type="text"
+                                    placeholder="Guest Name"
+                                    value={guest.name}
+                                    onChange={e => {
+                                        const updatedGuests = [...guestForms];
+                                        updatedGuests[index].name = e.target.value;
+                                        setGuestForms(updatedGuests);
+                                    }}
+                                />
+                                <label>Role:</label>
+                                <select
+                                    value={guest.role}
+                                    onChange={e => {
+                                        const updatedGuests = [...guestForms];
+                                        updatedGuests[index].role = e.target.value;
+                                        setGuestForms(updatedGuests);
+                                    }}
+                                >
+                                    <option value="GUEST">GUEST</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                </select>
+                                {guestForms.length > 1 && (
+                                    <button className='submit-button delete-btn'
+                                            onClick={() => removeGuestForm(index)}>Remove</button>
+                                )}
                             </div>
-                        </div>
+                        ))}
+                        <button className='submit-button' onClick={addGuestForm}>Add Another Guest
+                        </button>
+                        <button className='submit-button' onClick={handleGuestSubmit}>Submit</button>
                     </div>
-                )
-            }
+                </div>
+            )}
 
-            {/**/}
-
+            {/* Sub-Event Popup */}
             {showSubEventPopup && (
-                <div className="popup">
-                    {/*<div className="popup-content">*/}
-                    {/*    <button className="close-button" onClick={closePopup}>Close</button>*/}
-                    {/*    <h3>Details</h3>*/}
-                    {/*    <button type="button" className="add-button" onClick={() => setSubEvent([...subEvent, {*/}
-                    {/*        partName: "",*/}
-                    {/*        startTime: "",*/}
-                    {/*        endTime: "",*/}
-                    {/*        location: "",*/}
-                    {/*        instruction: "",*/}
-                    {/*        note: ""*/}
-                    {/*    }])} disabled={!canAddItems}>*/}
-                    {/*        Add Sub-Event*/}
-                    {/*    </button>*/}
-                    {/*    <div className="subevents-container">*/}
-                    {/*        {subEvent.map((sub, index) => (*/}
-                    {/*            <div key={index} className="subevent-item">*/}
-                    {/*                <label htmlFor={`sub-name-${index}`}>Part Name:</label>*/}
-                    {/*                <input*/}
-                    {/*                    id={`sub-name-${index}`}*/}
-                    {/*                    type="text"*/}
-                    {/*                    value={sub.partName}*/}
-                    {/*                    onChange={(e) => {*/}
-                    {/*                        const newSubEvent = [...subEvent];*/}
-                    {/*                        newSubEvent[index].partName = e.target.value;*/}
-                    {/*                        setSubEvent(newSubEvent);*/}
-                    {/*                    }}*/}
-                    {/*                />*/}
-                    {/*                <label htmlFor={`sub-start-time-${index}`}>Start Time:</label>*/}
-                    {/*                <input*/}
-                    {/*                    id={`sub-start-time-${index}`}*/}
-                    {/*                    type="datetime-local"*/}
-                    {/*                    value={sub.startTime}*/}
-                    {/*                    onChange={(e) => {*/}
-                    {/*                        const newSubEvent = [...subEvent];*/}
-                    {/*                        newSubEvent[index].startTime = e.target.value;*/}
-                    {/*                        setSubEvent(newSubEvent);*/}
-                    {/*                    }}*/}
-                    {/*                />*/}
-                    {/*                <label htmlFor={`sub-end-time-${index}`}>End Time:</label>*/}
-                    {/*                <input*/}
-                    {/*                    id={`sub-end-time-${index}`}*/}
-                    {/*                    type="datetime-local"*/}
-                    {/*                    value={sub.endTime}*/}
-                    {/*                    onChange={(e) => {*/}
-                    {/*                        const newSubEvent = [...subEvent];*/}
-                    {/*                        newSubEvent[index].endTime = e.target.value;*/}
-                    {/*                        setSubEvent(newSubEvent);*/}
-                    {/*                    }}*/}
-                    {/*                />*/}
-                    {/*                <label htmlFor={`sub-location-${index}`}>Location:</label>*/}
-                    {/*                <input*/}
-                    {/*                    id={`sub-location-${index}`}*/}
-                    {/*                    type="text"*/}
-                    {/*                    value={sub.location}*/}
-                    {/*                    onChange={(e) => {*/}
-                    {/*                        const newSubEvent = [...subEvent];*/}
-                    {/*                        newSubEvent[index].location = e.target.value;*/}
-                    {/*                        setSubEvent(newSubEvent);*/}
-                    {/*                    }}*/}
-                    {/*                />*/}
-                    {/*                <label htmlFor={`sub-instruction-${index}`}>Instruction:</label>*/}
-                    {/*                <textarea*/}
-                    {/*                    id={`sub-instruction-${index}`}*/}
-                    {/*                    rows={3}*/}
-                    {/*                    value={sub.instruction}*/}
-                    {/*                    onChange={(e) => {*/}
-                    {/*                        const newSubEvent = [...subEvent];*/}
-                    {/*                        newSubEvent[index].instruction = e.target.value;*/}
-                    {/*                        setSubEvent(newSubEvent);*/}
-                    {/*                    }}*/}
-                    {/*                />*/}
-                    {/*                <label htmlFor={`sub-note-${index}`}>Note:</label>*/}
-                    {/*                <textarea*/}
-                    {/*                    id={`sub-note-${index}`}*/}
-                    {/*                    rows={3}*/}
-                    {/*                    value={sub.note}*/}
-                    {/*                    onChange={(e) => {*/}
-                    {/*                        const newSubEvent = [...subEvent];*/}
-                    {/*                        newSubEvent[index].note = e.target.value;*/}
-                    {/*                        setSubEvent(newSubEvent);*/}
-                    {/*                    }}*/}
-                    {/*                />*/}
-                    {/*                {subEvent.length > 1 && (*/}
-                    {/*                    <button*/}
-                    {/*                        type="button"*/}
-                    {/*                        className="remove-button"*/}
-                    {/*                        onClick={() => setSubEvent(subEvent.filter((_, i) => i !== index))}*/}
-                    {/*                    >*/}
-                    {/*                        Remove Sub-Event*/}
-                    {/*                    </button>*/}
-                    {/*                )}*/}
-                    {/*            </div>*/}
-                    {/*        ))}*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                <div className="popup-overlay">
+                    <div className="popup-content" ref={subEventPopupRef}>
+                        <button className="close-button" onClick={() => setShowSubEventPopup(false)}>X</button>
+                        <h3>Add Sub Events</h3>
+                        {subEventForms.map((sub, index) => (
+                            <div key={index} className="form-card">
+                                <label>Start Time:</label>
+                                <input
+                                    type="datetime-local"
+                                    placeholder="Start Time"
+                                    value={sub.startTime}
+                                    onChange={e => {
+                                        const updatedSubEvents = [...subEventForms];
+                                        updatedSubEvents[index].startTime = e.target.value;
+                                        setSubEventForms(updatedSubEvents);
+                                    }}
+                                />
+                                <label>End Time:</label>
+                                <input
+                                    type="datetime-local"
+                                    placeholder="End Time"
+                                    value={sub.endTime}
+                                    onChange={e => {
+                                        const updatedSubEvents = [...subEventForms];
+                                        updatedSubEvents[index].endTime = e.target.value;
+                                        setSubEventForms(updatedSubEvents);
+                                    }}
+                                />
+                                <label>Location:</label>
+                                <input
+                                    type="text"
+                                    placeholder="Location"
+                                    value={sub.location}
+                                    onChange={e => {
+                                        const updatedSubEvents = [...subEventForms];
+                                        updatedSubEvents[index].location = e.target.value;
+                                        setSubEventForms(updatedSubEvents);
+                                    }}
+                                />
+                                <label>Part Name:</label>
+                                <input
+                                    type="text"
+                                    placeholder="Part Name"
+                                    value={sub.partName}
+                                    onChange={e => {
+                                        const updatedSubEvents = [...subEventForms];
+                                        updatedSubEvents[index].partName = e.target.value;
+                                        setSubEventForms(updatedSubEvents);
+                                    }}
+                                />
+                                <label>Instruction:</label>
+                                <input
+                                    type="text"
+                                    placeholder="Instruction"
+                                    value={sub.instruction}
+                                    onChange={e => {
+                                        const updatedSubEvents = [...subEventForms];
+                                        updatedSubEvents[index].instruction = e.target.value;
+                                        setSubEventForms(updatedSubEvents);
+                                    }}
+                                />
+                                <label>Note:</label>
+                                <textarea
+                                    placeholder="Note"
+                                    value={sub.note}
+                                    onChange={e => {
+                                        const updatedSubEvents = [...subEventForms];
+                                        updatedSubEvents[index].note = e.target.value;
+                                        setSubEventForms(updatedSubEvents);
+                                    }}
+                                />
+                                {subEventForms.length > 1 && (
+                                    <button className='submit-button delete-btn'
+                                            onClick={() => removeSubEventForm(index)}>Remove</button>
+                                )}
+                            </div>
+                        ))}
+                        <button className='submit-button' onClick={addSubEventForm}>Add Another Sub Event</button>
+                        <button className='submit-button' onClick={handleSubEventSubmit}>Submit</button>
+                    </div>
                 </div>
             )}
         </div>

@@ -92,7 +92,7 @@ export const App = () => {
                         <Route path="/register" element={<Register/>}/>
                         <Route path='/dashboard' element={<Dashboard/>}/>
                         <Route path={'/events/my-invitations/events/sub-events'} element={<SubEvents/>}/>
-                        {/*<Route path={'/events/greeting-board'} element={<GreetingBoard/>}/>*/}
+                        <Route path={'/events/greeting-board/:id'} element={<GreetingBoard/>}/>
 
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}

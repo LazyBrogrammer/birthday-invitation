@@ -3,7 +3,7 @@ import axios from 'axios';
 import './greetingBoard.css';
 import {Loader} from "../Loader/Loader.jsx";
 
-export const GreetingBoard = ({eventId}) => {
+export const GreetingBoard = () => {
     const [greetings, setGreetings] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [message, setMessage] = useState('');
@@ -14,6 +14,8 @@ export const GreetingBoard = ({eventId}) => {
     const guestEmail = localStorage.getItem('email'); // Assuming guestEmail is stored in localStorage
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token');
+
+    const eventId = window.location.pathname.split('/')[3]
     const greetingUrl = `${apiUrl}/greetings/allGreetings/${eventId}`;
 
     useEffect(() => {
@@ -89,6 +91,7 @@ export const GreetingBoard = ({eventId}) => {
                     <div key={greeting.id} className="greeting-card">
                         <p>{greeting.message}</p>
                         <span className="written-date">{new Date(greeting.writtenDate).toLocaleString()}</span>
+                        <p>{greeting.guestEmail}</p>
                     </div>
                 ))}
             </div>

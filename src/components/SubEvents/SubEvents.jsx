@@ -44,7 +44,7 @@ export const SubEvents = () => {
 
     return (
         <div className="sub-events-container">
-            {subEvents.map(subEvent => (
+            {subEvents.length > 0 ? subEvents.map(subEvent => (
                 <div key={subEvent.id} className="sub-event-card">
                     <h4>{subEvent.partName}</h4>
                     <p><strong>Start Time:</strong> {new Date(subEvent.startTime).toLocaleString()}</p>
@@ -53,7 +53,7 @@ export const SubEvents = () => {
                     <p><strong>Instruction:</strong> {subEvent.instruction}</p>
                     <p><strong>Note:</strong> {subEvent.note}</p>
                 </div>
-            ))}
+            )) : <p>You don't have sub events</p>}
         </div>
     );
 };

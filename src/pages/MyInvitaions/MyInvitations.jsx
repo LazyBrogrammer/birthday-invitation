@@ -7,13 +7,11 @@ import {GreetingBoard} from "../../components/GreetingBoard/GreetingBoard.jsx";
 
 export const MyInvitations = () => {
     const [events, setEvents] = useState([]);
-    const [expandedSubEvent, setExpandedSubEvent] = useState(null);
     const email = localStorage.getItem("email");
     const token = localStorage.getItem("token");
     const apiUrl = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    const [selectedEventId, setSelectedEventId] = useState(null);
     const popupRef = useRef(null);
     const [eventId, setEventId] = useState(null);
 
@@ -33,6 +31,8 @@ export const MyInvitations = () => {
                     );
                     setEvents(sortedEvents);
                     setLoading(false);
+                    console.log(events)
+
                 } else {
                     console.error("Failed to fetch events:", response.data.message);
                 }
@@ -45,7 +45,6 @@ export const MyInvitations = () => {
     }, [email]);
 
     const handlePopupOpen = (eventId) => {
-        setSelectedEventId(eventId);
         setShowPopup(true);
         setEventId(eventId)
     };
@@ -66,9 +65,6 @@ export const MyInvitations = () => {
         };
     }, []);
 
-    const toggleAccordion = (id) => {
-        setExpandedSubEvent(expandedSubEvent === id ? null : id);
-    };
 
     const handleResponse = async (url) => {
         try {
@@ -144,7 +140,7 @@ export const MyInvitations = () => {
                             Schedule</Link></button>
                         <button className="route-btn" onClick={() => alert('Media Gallery')}>Media Gallery</button>
                         <button className="route-btn">
-                            <Link to={'/events/greeting-board'}>
+                            <Link to={'/events/greeting-board/' + eventId}>
                                 Greeting Board
                             </Link>
                         </button>

@@ -107,7 +107,7 @@ export const EventInfo = ({data}) => {
             console.error("Error adding guests:", error);
             toast.error("Error adding guests.", {
                 position: "bottom-right",
-              
+
             });
         }
     };
@@ -235,6 +235,7 @@ export const EventInfo = ({data}) => {
                                         updatedGuests[index].email = e.target.value;
                                         setGuestForms(updatedGuests);
                                     }}
+                                    required={true}
                                 />
                                 <label>Name:</label>
                                 <input
@@ -246,6 +247,7 @@ export const EventInfo = ({data}) => {
                                         updatedGuests[index].name = e.target.value;
                                         setGuestForms(updatedGuests);
                                     }}
+                                    required={true}
                                 />
                                 <label>Role:</label>
                                 <select
@@ -255,6 +257,7 @@ export const EventInfo = ({data}) => {
                                         updatedGuests[index].role = e.target.value;
                                         setGuestForms(updatedGuests);
                                     }}
+                                    required={true}
                                 >
                                     <option value="GUEST">GUEST</option>
                                     <option value="ADMIN">ADMIN</option>
@@ -290,6 +293,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].startTime = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
+                                    required={true}
                                 />
                                 <label>End Time:</label>
                                 <input
@@ -301,6 +305,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].endTime = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
+                                    required={true}
                                 />
                                 <label>Location:</label>
                                 <input
@@ -312,6 +317,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].location = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
+                                    required={true}
                                 />
                                 <label>Part Name:</label>
                                 <input
@@ -323,6 +329,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].partName = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
+                                    required={true}
                                 />
                                 <label>Instruction:</label>
                                 <input
@@ -334,6 +341,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].instruction = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
+                                    required={true}
                                 />
                                 <label>Note:</label>
                                 <textarea
@@ -344,6 +352,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].note = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
+                                    required={true}
                                 />
                                 {subEventForms.length > 1 && (
                                     <button className='submit-button delete-btn'

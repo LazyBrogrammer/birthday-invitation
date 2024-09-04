@@ -71,7 +71,17 @@ export const EventInfo = ({data}) => {
     }, []);
 
     const handleGuestSubmit = async () => {
-        // New: Check for duplicate email
+        // Validation: Check if any guest input fields are empty
+        const isAnyGuestFieldEmpty = guestForms.some(guest => !guest.email || !guest.name || !guest.role);
+
+        if (isAnyGuestFieldEmpty) {
+            toast.error("Please fill in all guest fields.", {
+                position: 'bottom-right'
+            });
+            return; // Exit the function if there are empty fields
+        }
+
+        // Check for duplicate email
         const organizerEmail = localStorage.getItem("email");
         const isEmailDuplicate = guestForms.some((guest) => guest.email === organizerEmail);
 
@@ -97,7 +107,7 @@ export const EventInfo = ({data}) => {
                     position: "bottom-right",
                 });
                 setShowGuestPopup(false);
-                setTimeout(() => reload(), 1500)
+                setTimeout(() => reload(), 1500);
             } else {
                 toast.error("Failed to add guests.", {
                     position: "bottom-right",
@@ -107,13 +117,24 @@ export const EventInfo = ({data}) => {
             console.error("Error adding guests:", error);
             toast.error("Error adding guests.", {
                 position: "bottom-right",
-
             });
         }
     };
 
 
     const handleSubEventSubmit = async () => {
+        // Validation: Check if any sub-event input fields are empty
+        const isAnySubEventFieldEmpty = subEventForms.some(sub =>
+            !sub.startTime || !sub.endTime || !sub.location || !sub.partName || !sub.instruction || !sub.note
+        );
+
+        if (isAnySubEventFieldEmpty) {
+            toast.error("Please fill in all sub-event fields.", {
+                position: 'bottom-right'
+            });
+            return; // Exit the function if there are empty fields
+        }
+
         try {
             const response = await axios.post(`${apiUrl}/invitations/addSubEvents`, {
                 eventId: data.id,
@@ -129,14 +150,20 @@ export const EventInfo = ({data}) => {
                     position: "bottom-right",
                 });
                 setShowSubEventPopup(false);
-                setTimeout(() => reload(), 1500)
+                setTimeout(() => reload(), 1500);
             } else {
-                alert("Failed to add sub-events.");
+                toast.error("Failed to add sub-events.", {
+                    position: "bottom-right",
+                });
             }
         } catch (error) {
             console.error("Error adding sub-events:", error);
+            toast.error("Error adding sub-events.", {
+                position: "bottom-right",
+            });
         }
     };
+
 
     const addGuestForm = () => {
         setGuestForms([...guestForms, {email: '', name: '', role: 'GUEST'}]);
@@ -235,7 +262,7 @@ export const EventInfo = ({data}) => {
                                         updatedGuests[index].email = e.target.value;
                                         setGuestForms(updatedGuests);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>Name:</label>
                                 <input
@@ -247,7 +274,7 @@ export const EventInfo = ({data}) => {
                                         updatedGuests[index].name = e.target.value;
                                         setGuestForms(updatedGuests);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>Role:</label>
                                 <select
@@ -257,7 +284,7 @@ export const EventInfo = ({data}) => {
                                         updatedGuests[index].role = e.target.value;
                                         setGuestForms(updatedGuests);
                                     }}
-                                    required={true}
+                                    required
                                 >
                                     <option value="GUEST">GUEST</option>
                                     <option value="ADMIN">ADMIN</option>
@@ -293,7 +320,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].startTime = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>End Time:</label>
                                 <input
@@ -305,7 +332,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].endTime = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>Location:</label>
                                 <input
@@ -317,7 +344,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].location = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>Part Name:</label>
                                 <input
@@ -329,7 +356,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].partName = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>Instruction:</label>
                                 <input
@@ -341,7 +368,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].instruction = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 <label>Note:</label>
                                 <textarea
@@ -352,7 +379,7 @@ export const EventInfo = ({data}) => {
                                         updatedSubEvents[index].note = e.target.value;
                                         setSubEventForms(updatedSubEvents);
                                     }}
-                                    required={true}
+                                    required
                                 />
                                 {subEventForms.length > 1 && (
                                     <button className='submit-button delete-btn'

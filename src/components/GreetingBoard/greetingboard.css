@@ -138,5 +138,9 @@
         font-size: 0.9rem !important;
         color: #666 !important;
     }
+
+    .greeting-message {
+        margin-top: 10px !important;
+    }
 }
 

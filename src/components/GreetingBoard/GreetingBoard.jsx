@@ -95,7 +95,7 @@ export const GreetingBoard = () => {
             <div className="greetings-list">
                 {greetings.map((greeting) => (
                     <div key={greeting.id} className="greeting-card">
-                        <p>{greeting.message}</p>
+                        <p className={'greeting-message'}>{greeting.message}</p>
                         <span className="written-date">{new Date(greeting.writtenDate).toLocaleString()}</span>
                         <p className={'guest-email'}>{greeting.guestEmail}</p>
                     </div>

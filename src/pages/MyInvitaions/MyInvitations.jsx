@@ -140,17 +140,17 @@ export const MyInvitations = () => {
                     <div className="popup-content-invitations" ref={popupRef}>
                         <button className="close-btn" onClick={handlePopupClose}>X</button>
                         <h3>Event Actions</h3>
-                        <button className="route-btn">
-                            <Link to={'/events/my-invitations/events/sub-events'}>Event
-                                Schedule
-                            </Link>
-                        </button>
+                        <Link to={'/events/my-invitations/events/sub-events'}>
+                            <button className="route-btn">
+                                Event Schedule
+                            </button>
+                        </Link>
                         <button className="route-btn" onClick={() => alert('Media Gallery')}>Media Gallery</button>
-                        <button className="route-btn">
-                            <Link to={'/events/greeting-board/' + eventId}>
+                        <Link to={'/events/greeting-board/' + eventId}>
+                            <button className="route-btn">
                                 Greeting Board
-                            </Link>
-                        </button>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             )}

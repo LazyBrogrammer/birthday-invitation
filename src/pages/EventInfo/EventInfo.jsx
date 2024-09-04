@@ -202,10 +202,14 @@ export const EventInfo = ({data}) => {
                     <p><strong>Instructions:</strong> {event.instructions}</p>
                     <p><strong>Note:</strong> {event.note}</p>
                     <div className='btn-wrapper'>
-                        <button>
-                            <Link to={'/event-info/media-review/' + data.id}>Media Review</Link>
-                        </button>
-                        <button><Link to={'/event-info/greeting-review/' + data.id}>Greeting Review</Link></button>
+                        <Link to={'/event-info/media-review/' + data.id}>
+                            <button>
+                                Media Review
+                            </button>
+                        </Link>
+                        <Link to={'/event-info/greeting-review/' + data.id}>
+                            <button>Greeting Review</button>
+                        </Link>
                     </div>
                     <div className='btn-wrapper'>
                         <h4>Guests:</h4>

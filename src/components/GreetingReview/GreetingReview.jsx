@@ -31,7 +31,6 @@ export const GreetingReview = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log(response);
 
                 if (response.data.success) {
                     setGreetings(response.data.data);
@@ -48,7 +47,6 @@ export const GreetingReview = () => {
         fetchGreetings();
     }, [greetingsUrl]);
 
-    // `accept` yoki `decline` qilish funksiyasi
     const handleApproval = async (greetingId, approval, eventToken) => {
         try {
             const response = await axios.post(
@@ -65,7 +63,7 @@ export const GreetingReview = () => {
                 toast.success(`Greeting ${approval === 'yes' ? 'approved' : 'declined'} successfully!`, {
                     position: 'bottom-right'
                 });
-                reload()
+                setTimeout(() => reload(), 1500);
             } else {
                 alert('Failed to update greeting status');
             }
@@ -84,7 +82,8 @@ export const GreetingReview = () => {
                 <div key={greeting.id} className="greeting-card">
                     <p><strong>Message:</strong> {greeting.message}</p>
                     <p><strong>Guest Email:</strong> {greeting.guestEmail}</p>
-                    <p><strong>Status:</strong> {greeting.status}</p>
+                    <p><strong>Status: </strong><span
+                        className={greeting.status}>{greeting.status}</span></p>
                     <p className="written-date"><strong>Date:</strong> {new Date(greeting.writtenDate).toLocaleString()}
                     </p>
                     {

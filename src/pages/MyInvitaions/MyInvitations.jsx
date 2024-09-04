@@ -25,7 +25,6 @@ export const MyInvitations = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log(response)
 
                 if (response.data.success) {
                     // const sortedEvents = response.data.data.sort(
@@ -75,6 +74,7 @@ export const MyInvitations = () => {
             console.error("Error sending response:", error);
         }
     };
+    if (loading) <Loader/>
 
     return (
         <>
@@ -119,13 +119,16 @@ export const MyInvitations = () => {
                                         </button>
                                     </div>
                                 ) : (
-                                    <button
-                                        className="btn-my-invitations"
-                                        onClick={() => handlePopupOpen(event.eventId)} // Add onClick handler
-                                    > Open →
+                                    event.response === "ACCEPTED" ? (
+                                        <button
+                                            className="btn-my-invitations"
+                                            onClick={() => handlePopupOpen(event.eventId)} // Add onClick handler
+                                        > Open →
+                                        </button>
+                                    ) : <div className='declined-info'>DECLINED</div>
+                                )
 
-                                    </button>
-                                )}
+                                }
 
                             </div>
                         ))
@@ -135,7 +138,7 @@ export const MyInvitations = () => {
             {showPopup && (
                 <div className="popup-overlay full-screen">
                     <div className="popup-content" ref={popupRef}>
-                        <button id="close-button" onClick={handlePopupClose}>X</button>
+                        <button className="close-btn" onClick={handlePopupClose}>X</button>
                         <h3>Event Actions</h3>
                         <button className="route-btn">
                             <Link to={'/events/my-invitations/events/sub-events'}>Event

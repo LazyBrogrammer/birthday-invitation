@@ -110,7 +110,7 @@ export const GreetingBoard = () => {
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-content" ref={modalRef}>
-                        <button className="close-button" onClick={() => setShowModal(false)}>X</button>
+                        <button className="close-btn" onClick={() => setShowModal(false)}>X</button>
                         <h3>Add Greeting</h3>
                         <textarea
                             placeholder="Write your greeting..."

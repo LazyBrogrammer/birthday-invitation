@@ -3,6 +3,9 @@ import axios from 'axios';
 import './eventinfo.css';
 import {Loader} from "../../components/Loader/Loader.jsx";
 import {Link} from "react-router-dom";
+import toast from "react-hot-toast";
+import {reload} from "../../utils/reload.js";
+
 
 export const EventInfo = ({data}) => {
     const [eventData, setEventData] = useState(null);
@@ -68,6 +71,17 @@ export const EventInfo = ({data}) => {
     }, []);
 
     const handleGuestSubmit = async () => {
+        // New: Check for duplicate email
+        const organizerEmail = localStorage.getItem("email");
+        const isEmailDuplicate = guestForms.some((guest) => guest.email === organizerEmail);
+
+        if (isEmailDuplicate) {
+            toast.error("Cannot add a guest with the same email as the organizer.", {
+                position: 'bottom-right'
+            });
+            return; // Exit the function if there's a duplicate
+        }
+
         try {
             const response = await axios.post(`${apiUrl}/invitations/addGuests`, {
                 eventId: data.id,
@@ -79,15 +93,25 @@ export const EventInfo = ({data}) => {
             });
 
             if (response.data.success) {
-                alert("Guests added successfully!");
+                toast.success("Guests added successfully!", {
+                    position: "bottom-right",
+                });
                 setShowGuestPopup(false);
+                setTimeout(() => reload(), 1500)
             } else {
-                alert("Failed to add guests.");
+                toast.error("Failed to add guests.", {
+                    position: "bottom-right",
+                });
             }
         } catch (error) {
             console.error("Error adding guests:", error);
+            toast.error("Error adding guests.", {
+                position: "bottom-right",
+              
+            });
         }
     };
+
 
     const handleSubEventSubmit = async () => {
         try {
@@ -101,8 +125,11 @@ export const EventInfo = ({data}) => {
             });
 
             if (response.data.success) {
-                alert("Sub-Events added successfully!");
+                toast.success("Sub-Events added successfully!", {
+                    position: "bottom-right",
+                });
                 setShowSubEventPopup(false);
+                setTimeout(() => reload(), 1500)
             } else {
                 alert("Failed to add sub-events.");
             }
@@ -194,7 +221,7 @@ export const EventInfo = ({data}) => {
             {showGuestPopup && (
                 <div className="popup-overlay">
                     <div className="popup-content" ref={guestPopupRef}>
-                        <button className="close-button" onClick={() => setShowGuestPopup(false)}>X</button>
+                        <button id="close-button" onClick={() => setShowGuestPopup(false)}>X</button>
                         <h3>Add Guests</h3>
                         {guestForms.map((guest, index) => (
                             <div key={index} className="form-card">
@@ -249,7 +276,7 @@ export const EventInfo = ({data}) => {
             {showSubEventPopup && (
                 <div className="popup-overlay">
                     <div className="popup-content" ref={subEventPopupRef}>
-                        <button className="close-button" onClick={() => setShowSubEventPopup(false)}>X</button>
+                        <button id="close-button" onClick={() => setShowSubEventPopup(false)}>X</button>
                         <h3>Add Sub Events</h3>
                         {subEventForms.map((sub, index) => (
                             <div key={index} className="form-card">

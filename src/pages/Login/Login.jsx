@@ -1,7 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import toast, {Toaster} from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

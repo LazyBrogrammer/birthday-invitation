@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import './greetingboard.css';
 import {Loader} from "../Loader/Loader.jsx";
+import toast from 'react-hot-toast';
 
 export const GreetingBoard = () => {
     const [greetings, setGreetings] = useState([]);
@@ -71,12 +72,16 @@ export const GreetingBoard = () => {
             });
 
             if (response.data.success) {
-                alert('Greeting added successfully!');
                 setShowModal(false);
                 setMessage('');
                 setGreetings([...greetings, {eventId, guestEmail, message, writtenDate, status: 'PENDING'}]);
+                toast.success('Login successfully', {
+                    position: 'bottom-right'
+                });
             } else {
-                alert('Failed to add greeting.');
+                toast.error('Login successfully', {
+                    position: 'bottom-right'
+                });
             }
         } catch (error) {
             console.error('Error adding greeting:', error);
@@ -92,7 +97,7 @@ export const GreetingBoard = () => {
                     <div key={greeting.id} className="greeting-card">
                         <p>{greeting.message}</p>
                         <span className="written-date">{new Date(greeting.writtenDate).toLocaleString()}</span>
-                        <p>{greeting.guestEmail}</p>
+                        <p className={'guest-email'}>{greeting.guestEmail}</p>
                     </div>
                 ))}
             </div>

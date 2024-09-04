@@ -137,8 +137,11 @@ export const MyInvitations = () => {
                     <div className="popup-content" ref={popupRef}>
                         <button id="close-button" onClick={handlePopupClose}>X</button>
                         <h3>Event Actions</h3>
-                        <button className="route-btn"><Link to={'/events/my-invitations/events/sub-events'}>Event
-                            Schedule</Link></button>
+                        <button className="route-btn">
+                            <Link to={'/events/my-invitations/events/sub-events'}>Event
+                                Schedule
+                            </Link>
+                        </button>
                         <button className="route-btn" onClick={() => alert('Media Gallery')}>Media Gallery</button>
                         <button className="route-btn">
                             <Link to={'/events/greeting-board/' + eventId}>

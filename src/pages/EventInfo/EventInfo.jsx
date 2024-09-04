@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import './eventinfo.css';
 import {Loader} from "../../components/Loader/Loader.jsx";
+import {Link} from "react-router-dom";
 
 export const EventInfo = ({data}) => {
     const [eventData, setEventData] = useState(null);
@@ -146,7 +147,12 @@ export const EventInfo = ({data}) => {
                     <p><strong>Location:</strong> {event.location}</p>
                     <p><strong>Instructions:</strong> {event.instructions}</p>
                     <p><strong>Note:</strong> {event.note}</p>
-
+                    <div className='btn-wrapper'>
+                        <button>
+                            <Link to={'/event-info/media-review/' + data.id}>Media Review</Link>
+                        </button>
+                        <button><Link to={'/event-info/greeting-review/' + data.id}>Greeting Review</Link></button>
+                    </div>
                     <div className='btn-wrapper'>
                         <h4>Guests:</h4>
                         <button onClick={() => setShowGuestPopup(true)}>Add Guest</button>
@@ -165,8 +171,8 @@ export const EventInfo = ({data}) => {
                     </ul>
 
                     <div className='btn-wrapper'>
-                        <h4>Sub-Events:</h4>
-                        <button onClick={() => setShowSubEventPopup(true)}>Add Sub Event</button>
+                        <h4>Schedule:</h4>
+                        <button onClick={() => setShowSubEventPopup(true)}>Add Schedule</button>
                     </div>
                     <ul>
                         {event.subEvent.map(sub => (
@@ -180,6 +186,7 @@ export const EventInfo = ({data}) => {
                             </li>
                         ))}
                     </ul>
+
                 </div>
             ))}
 

@@ -137,7 +137,7 @@ export const MyInvitations = () => {
             )}
             {showPopup && (
                 <div className="popup-overlay full-screen">
-                    <div className="popup-content" ref={popupRef}>
+                    <div className="popup-content-invitations" ref={popupRef}>
                         <button className="close-btn" onClick={handlePopupClose}>X</button>
                         <h3>Event Actions</h3>
                         <button className="route-btn">

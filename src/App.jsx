@@ -22,6 +22,11 @@ import {GreetingBoard} from "./components/GreetingBoard/GreetingBoard.jsx";
 import {GreetingReview} from "./components/GreetingReview/GreetingReview.jsx";
 import {MediaReview} from "./components/MediaReview/MediaReview.jsx";
 
+const LogoComponent = () => {
+    return (
+        <img src={logo} alt="logo" className="logo"/>
+    );
+}
 export const App = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [route, setRoute] = useState([]);
@@ -97,6 +102,7 @@ export const App = () => {
                         <Route path={'/events/greeting-board/:id'} element={<GreetingBoard/>}/>
                         <Route path={'event-info/greeting-review/:id'} element={<GreetingReview/>}/>
                         <Route path={'event-info/media-review/:id'} element={<MediaReview/>}/>
+                        <Route path={'/logo'} element={<LogoComponent/>}/>
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}
                                                         element={<FillCreatedEvent data={route}/>}

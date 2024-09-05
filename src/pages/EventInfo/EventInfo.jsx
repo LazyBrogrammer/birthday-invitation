@@ -311,7 +311,7 @@ export const EventInfo = ({data}) => {
                 <div className="popup-overlay">
                     <div className="popup-content" ref={subEventPopupRef}>
                         <button id="close-button" onClick={() => setShowSubEventPopup(false)}>X</button>
-                        <h3>Add Sub Events</h3>
+                        <h3>Add Schedule</h3>
                         {subEventForms.map((sub, index) => (
                             <div key={index} className="form-card">
                                 <label>Start Time:</label>

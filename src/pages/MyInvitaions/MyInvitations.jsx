@@ -31,6 +31,7 @@ export const MyInvitations = () => {
                     //     (a, b) => new Date(a.eventStartTime) - new Date(b.eventStartTime)
                     // );
                     setEvents(response.data.data);
+                    console.log(response.data.data)
 
                     setLoading(false);
                 } else {
@@ -100,6 +101,7 @@ export const MyInvitations = () => {
                                 <p><strong>Start:</strong> {new Date(event.eventStartTime).toLocaleString()}</p>
                                 <p><strong>End:</strong> {new Date(event.eventEndTime).toLocaleString()}</p>
                                 <p><strong>Note:</strong> {event.note}</p>
+                                <p><strong>Instructions:</strong> {event.instructions}</p>
                                 <a href={"mailto:" + event.organizerEmail}>
                                     <strong>Organizer:</strong> {event.organizerName} ({event.organizerEmail})
                                 </a>
@@ -145,7 +147,11 @@ export const MyInvitations = () => {
                                 Event Schedule
                             </button>
                         </Link>
-                        <button className="route-btn" onClick={() => alert('Media Gallery')}>Media Gallery</button>
+                        <Link to={'/events/media-gallery/' + eventId}>
+                            <button className="route-btn">
+                                Media Gallery
+                            </button>
+                        </Link>
                         <Link to={'/events/greeting-board/' + eventId}>
                             <button className="route-btn">
                                 Greeting Board
@@ -157,3 +163,5 @@ export const MyInvitations = () => {
         </>
     );
 };
+
+

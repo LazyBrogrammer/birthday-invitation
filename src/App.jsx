@@ -21,6 +21,7 @@ import {SubEvents} from "./components/SubEvents/SubEvents.jsx";
 import {GreetingBoard} from "./components/GreetingBoard/GreetingBoard.jsx";
 import {GreetingReview} from "./components/GreetingReview/GreetingReview.jsx";
 import {MediaReview} from "./components/MediaReview/MediaReview.jsx";
+import {MediaGallery} from "./components/MediaGallery/MediaGallery.jsx";
 
 const LogoComponent = () => {
     return (
@@ -102,6 +103,7 @@ export const App = () => {
                         <Route path={'/events/greeting-board/:id'} element={<GreetingBoard/>}/>
                         <Route path={'event-info/greeting-review/:id'} element={<GreetingReview/>}/>
                         <Route path={'event-info/media-review/:id'} element={<MediaReview/>}/>
+                        <Route path={'/events/media-gallery/:id'} element={<MediaGallery/>}/>
                         <Route path={'/logo'} element={<LogoComponent/>}/>
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}

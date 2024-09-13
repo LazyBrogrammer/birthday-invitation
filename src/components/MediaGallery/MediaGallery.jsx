@@ -1,19 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Toaster, toast} from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
 import './media-gallery.css';
 import {getIdFromPath} from "../../utils/getIdFromPath.js";
 
 export const MediaGallery = () => {
     const [mediaItems, setMediaItems] = useState([]);
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token');
     const uploaderEmail = localStorage.getItem('email');
-    const eventId = getIdFromPath(); // ID ni URL'dan olishingiz kerak bo'lsa
+    const eventId = getIdFromPath();
 
     useEffect(() => {
         fetchMedia();
@@ -26,7 +26,6 @@ export const MediaGallery = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log(response)
 
             if (response.data.success) {
                 setMediaItems(response.data.data);
@@ -36,9 +35,13 @@ export const MediaGallery = () => {
         }
     };
 
+    const handleFileChange = (e) => {
+        setFiles([...e.target.files]);
+    };
+
     const handleUpload = async () => {
-        if (!file) {
-            toast.error('Please select a file to upload.', {
+        if (!files.length) {
+            toast.error('Please select files to upload.', {
                 position: "bottom-right",
                 autoClose: 3000,
             });
@@ -46,7 +49,7 @@ export const MediaGallery = () => {
         }
 
         const formData = new FormData();
-        formData.append('file', file);
+        files.forEach((file) => formData.append('file', file));
         formData.append('eventId', eventId);
         formData.append('uploaderEmail', uploaderEmail);
 
@@ -65,15 +68,14 @@ export const MediaGallery = () => {
                 },
             });
 
-
-            toast.success('File uploaded successfully!', {
+            toast.success('Files uploaded successfully!', {
                 position: "bottom-right",
                 autoClose: 3000,
             });
-            setFile(null);
+            setFiles([]);
             fetchMedia();
         } catch (error) {
-            toast.error('Failed to upload file.');
+            toast.error('Failed to upload files.');
         } finally {
             setUploading(false);
             setUploadProgress(0);
@@ -82,14 +84,26 @@ export const MediaGallery = () => {
 
     return (
         <div className="media-gallery-container">
-            {/*<Toaster position="top-right" reverseOrder={false}/>*/}
             <div className="upload-section">
-                <input
-                    type="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    disabled={uploading}
-                />
-                <button onClick={handleUpload} disabled={uploading}>
+                <label className="file-input-label">
+                    Select Files
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        disabled={uploading}
+                        multiple
+                        hidden
+                    />
+                </label>
+                {files.length > 0 && (
+                    <div className="selected-files">
+                        {files.map((file, index) => (
+                            <span key={index} className="file-name">{file.name}</span>
+                        ))}
+                    </div>
+                )}
+                <button className={`upload-button ${uploading ? 'uploading' : ''}`} onClick={handleUpload}
+                        disabled={uploading}>
                     {uploading ? 'Uploading...' : 'Upload'}
                 </button>
                 {uploading && (
@@ -103,25 +117,29 @@ export const MediaGallery = () => {
             </div>
 
             <div className="media-gallery">
-                {mediaItems.map((item) => (
-                    <div key={item.id} className="media-card">
-                        <img
-                            src={item.thumbnailUrl}
-                            alt={item.filename}
-                            className="media-thumbnail"
-                        />
-                        <a
-                            href={item.mediaUrl}
-                            download={item.filename}
-                            className="download-button"
-                        >
-                            Download
-                        </a>
-                    </div>
-                ))}
+                {mediaItems.length === 0 ? (
+                    Array.from({length: files.length || 6}).map((_, index) => (
+                        <div key={index} className="media-skeleton"></div>
+                    ))
+                ) : (
+                    mediaItems.map((item) => (
+                        <div key={item.id} className="media-card">
+                            <img
+                                src={item.thumbnailUrl}
+                                alt={item.filename}
+                                className="media-thumbnail"
+                            />
+                            <a
+                                href={item.mediaUrl}
+                                download={item.filename}
+                                className="download-button"
+                            >
+                                Download
+                            </a>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
 };
-
-export default MediaGallery;

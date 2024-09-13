@@ -89,6 +89,7 @@ export const MediaGallery = () => {
                     Select Files
                     <input
                         type="file"
+                        accept="image/*, video/*"
                         onChange={handleFileChange}
                         disabled={uploading}
                         multiple

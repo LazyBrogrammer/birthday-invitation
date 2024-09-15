@@ -3,8 +3,10 @@ import axios from 'axios';
 import {toast} from 'react-hot-toast';
 import './media-gallery.css';
 import {getIdFromPath} from "../../utils/getIdFromPath.js";
+import {Loader} from "../Loader/Loader.jsx";
 
 export const MediaGallery = () => {
+    const [loading, setLoading] = useState(false);
     const [mediaItems, setMediaItems] = useState([]);
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
@@ -22,6 +24,7 @@ export const MediaGallery = () => {
 
     const fetchMedia = async () => {
         try {
+            setLoading(true)
             const response = await axios.get(`${apiUrl}/media/approved/${eventId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -30,6 +33,7 @@ export const MediaGallery = () => {
 
             if (response.data.success) {
                 setMediaItems(response.data.data);
+                setLoading(false)
             }
         } catch (error) {
             toast.error('Failed to fetch media.');
@@ -92,6 +96,7 @@ export const MediaGallery = () => {
         setSelectedImage(null); // Close the modal by setting selected image to null
     };
 
+    if (loading) return <Loader/>
     return (
         <div className="media-gallery-container">
             <div className="upload-section">

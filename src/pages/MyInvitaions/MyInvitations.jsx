@@ -1,15 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import "./myInvitations.css";
 import {Loader} from "../../components/Loader/Loader.jsx";
+import {Link, Route} from "react-router-dom";
+import {GreetingBoard} from "../../components/GreetingBoard/GreetingBoard.jsx";
 
 export const MyInvitations = () => {
     const [events, setEvents] = useState([]);
-    const [expandedSubEvent, setExpandedSubEvent] = useState(null);
     const email = localStorage.getItem("email");
     const token = localStorage.getItem("token");
     const apiUrl = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const popupRef = useRef(null);
+    const [eventId, setEventId] = useState(null);
+
 
     useEffect(() => {
         setLoading(true);
@@ -20,11 +25,13 @@ export const MyInvitations = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+
                 if (response.data.success) {
-                    // Sort events by start time (ascending)
-                    const sortedEvents = response.data.data.sort((a, b) => new Date(a.eventStartTime) - new Date(b.eventStartTime));
-                    setEvents(sortedEvents);
-                    console.log(sortedEvents)
+                    // const sortedEvents = response.data.data.sort(
+                    //     (a, b) => new Date(a.eventStartTime) - new Date(b.eventStartTime)
+                    // );
+                    setEvents(response.data.data);
+                    console.log(response.data.data)
 
                     setLoading(false);
                 } else {
@@ -38,98 +45,123 @@ export const MyInvitations = () => {
         fetchEvents();
     }, [email]);
 
-    const toggleAccordion = (id) => {
-        setExpandedSubEvent(expandedSubEvent === id ? null : id);
+    const handlePopupOpen = (eventId) => {
+        setShowPopup(true);
+        setEventId(eventId)
     };
+
+    const handlePopupClose = () => {
+        setShowPopup(false);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                handlePopupClose();
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
 
     const handleResponse = async (url) => {
         try {
             await axios.get(url);
-            window.location.reload();  // Refresh the page after the request is made
+            window.location.reload(); // Refresh the page after the request is made
         } catch (error) {
             console.error("Error sending response:", error);
         }
     };
+    if (loading) <Loader/>
 
-    return (<>
-        {loading ? (<Loader/>) : (
-            <div className={events.length > 0 ? 'my-invitations-container' : "no-events-container"}>
-                {events.length === 0 ? (<div className="no-events-card">
-                    <h3>No Events Found</h3>
-                    <p>
-                        There are no events to display. Please check back later or
-                        create a new event.
-                    </p>
-                </div>) : (events.map((event) => (<div key={event.id} className="event-card">
-                    <div className="event-header">
-                        <h2 className="event-name">{event.eventName}</h2>
-                        <span className={`event-status ${event.response}`}>
-                    {event.response}
-                  </span>
-                    </div>
-                    <p>
-                        <strong>Location:</strong> {event.location}
-                    </p>
-                    <p>
-                        <strong>Start:</strong> {new Date(event.eventStartTime).toLocaleString()}
-                    </p>
-                    <p>
-                        <strong>End:</strong> {new Date(event.eventEndTime).toLocaleString()}
-                    </p>
-                    <p>
-                        <strong>Note:</strong> {event.note}
-                    </p>
-                    <a href={"mailto:" + event.organizerEmail}>
-                        <strong>Organizer:</strong> {event.organizerName} ({event.organizerEmail})
-                    </a>
-                    {event.response == "PENDING" ? <div className="response-buttons">
-                        <button
-                            className="response-button accept"
-                            onClick={() => handleResponse(event.responseLink + `&response=yes`)}
-                        >
-                            Accept
-                        </button>
-                        <button
-                            className="response-button decline"
-                            onClick={() => handleResponse(event.responseLink + `&response=no`)}
-                        >
-                            Decline
-                        </button>
-                    </div> : ""}
-                    {event.subEvents.length > 0 && (
-                        <div className="sub-events">
-                            <h4>Sub Events:</h4>
-                            {event.subEvents.map((sub) => (
-                                <div key={sub.id} className="sub-event">
-                                    <div
-                                        className="accordion-header"
-                                        onClick={() => toggleAccordion(`${event.id}-${sub.id}`)}
-                                    >
-                                        <p><strong>Part Name:</strong> {sub.partName}</p>
-                                        <span>
-            {expandedSubEvent === `${event.id}-${sub.id}` ? "-" : "+"}
-          </span>
-                                    </div>
-                                    {expandedSubEvent === `${event.id}-${sub.id}` && (
-                                        <div className="accordion-content">
-                                            <p>
-                                                <strong>Start:</strong> {new Date(sub.startTime).toLocaleString()}
-                                            </p>
-                                            <p>
-                                                <strong>End:</strong> {new Date(sub.endTime).toLocaleString()}
-                                            </p>
-                                            <p><strong>Location:</strong> {sub.location}</p>
-                                            <p><strong>Note:</strong> {sub.note}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+    return (
+        <>
+            {loading ? (
+                <Loader/>
+            ) : (
+                <div className={events.length > 0 ? 'my-invitations-container' : "no-events-container"}>
+                    {events.length === 0 ? (
+                        <div className="no-events-card">
+                            <h3>No Events Found</h3>
+                            <p>There are no events to display.</p>
                         </div>
-                    )}
+                    ) : (
+                        events.map((event) => (
+                            <div key={event.id} className="event-card">
+                                <div className="event-header">
+                                    <h2 className="event-name">{event.eventName}</h2>
+                                    <span className={`event-status ${event.response}`}>
+                                        {event.response}
+                                    </span>
+                                </div>
+                                <p><strong>Location:</strong> {event.location}</p>
+                                <p><strong>Start:</strong> {new Date(event.eventStartTime).toLocaleString()}</p>
+                                <p><strong>End:</strong> {new Date(event.eventEndTime).toLocaleString()}</p>
+                                <p><strong>Note:</strong> {event.note}</p>
+                                <p><strong>Instructions:</strong> {event.instructions}</p>
+                                <a href={"mailto:" + event.organizerEmail}>
+                                    <strong>Organizer:</strong> {event.organizerName} ({event.organizerEmail})
+                                </a>
+                                {event.response === "PENDING" ? (
+                                    <div className="response-buttons">
+                                        <button
+                                            className="response-button accept"
+                                            onClick={() => handleResponse(event.responseLink + `&response=yes`)}
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            className="response-button decline"
+                                            onClick={() => handleResponse(event.responseLink + `&response=no`)}
+                                        >
+                                            Decline
+                                        </button>
+                                    </div>
+                                ) : (
+                                    event.response === "ACCEPTED" ? (
+                                        <button
+                                            className="btn-my-invitations"
+                                            onClick={() => handlePopupOpen(event.eventId)} // Add onClick handler
+                                        > Open →
+                                        </button>
+                                    ) : <div className='declined-info'>DECLINED</div>
+                                )
 
-                </div>)))}
-            </div>)}
-    </>);
+                                }
+
+                            </div>
+                        ))
+                    )}
+                </div>
+            )}
+            {showPopup && (
+                <div className="popup-overlay full-screen">
+                    <div className="popup-content-invitations" ref={popupRef}>
+                        <button className="close-btn" onClick={handlePopupClose}>X</button>
+                        <h3>Event Actions</h3>
+                        <Link to={'/events/my-invitations/events/sub-events'}>
+                            <button className="route-btn">
+                                Event Schedule
+                            </button>
+                        </Link>
+                        <Link to={'/events/media-gallery/' + eventId}>
+                            <button className="route-btn">
+                                Media Gallery
+                            </button>
+                        </Link>
+                        <Link to={'/events/greeting-board/' + eventId}>
+                            <button className="route-btn">
+                                Greeting Board
+                            </button>
+                        </Link>
+                    </div>
+                </div>
+            )}
+        </>
+    );
 };
 
-//salom
+

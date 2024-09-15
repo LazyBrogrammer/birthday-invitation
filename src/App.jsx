@@ -1,6 +1,5 @@
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import logo from "./assets/logo.png";
-import "./App.css";
 
 // import pages
 import {Navbar} from "./components/Navbar/Navbar.jsx";
@@ -18,7 +17,17 @@ import {isAuthenticated} from "./auth/auth.js";
 import {FillCreatedEvent} from "./components/FillCreatedEvent/FillCreatedEvent.jsx";
 import {EventInfo} from "./pages/EventInfo/EventInfo.jsx";
 import {Dashboard} from "./pages/Dashboard/Dashboard.jsx";
+import {SubEvents} from "./components/SubEvents/SubEvents.jsx";
+import {GreetingBoard} from "./components/GreetingBoard/GreetingBoard.jsx";
+import {GreetingReview} from "./components/GreetingReview/GreetingReview.jsx";
+import {MediaReview} from "./components/MediaReview/MediaReview.jsx";
+import {MediaGallery} from "./components/MediaGallery/MediaGallery.jsx";
 
+const LogoComponent = () => {
+    return (
+        <img src={logo} alt="logo" className="logo"/>
+    );
+}
 export const App = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [route, setRoute] = useState([]);
@@ -90,7 +99,12 @@ export const App = () => {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
                         <Route path='/dashboard' element={<Dashboard/>}/>
-
+                        <Route path={'/events/my-invitations/events/sub-events'} element={<SubEvents/>}/>
+                        <Route path={'/events/greeting-board/:id'} element={<GreetingBoard/>}/>
+                        <Route path={'event-info/greeting-review/:id'} element={<GreetingReview/>}/>
+                        <Route path={'event-info/media-review/:id'} element={<MediaReview/>}/>
+                        <Route path={'/events/media-gallery/:id'} element={<MediaGallery/>}/>
+                        <Route path={'/logo'} element={<LogoComponent/>}/>
                         {
                             route.map((route) => <Route key={route.id} path={`/events/event/${route.id}`}
                                                         element={<FillCreatedEvent data={route}/>}

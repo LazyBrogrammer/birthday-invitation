@@ -1,0 +1,93 @@
+.greeting-review {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    .greeting-card {
+        margin-bottom: 15px;
+        background-color: #fff;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        padding: 10px;
+        padding-top: 2rem;
+    }
+
+    h2 {
+        margin-bottom: 16px;
+    }
+}
+
+
+.greeting-card p {
+    margin-bottom: 10px;
+}
+
+.written-date {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1rem !important;
+    color: #777;
+}
+
+.greeting-actions {
+    margin-top: 10px;
+}
+
+.greeting-actions button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.greeting-actions button:hover {
+    background-color: #45a049;
+}
+
+.greeting-actions button:last-child {
+    background-color: #f44336;
+}
+
+.greeting-actions button:last-child:hover {
+    background-color: #e53935;
+}
+
+.btn-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.btn-wrapper button {
+    padding: 5px 10px;
+    background-color: #4caf50;
+}
+
+.greeting-card span {
+    font-size: 1rem;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.APPROVED {
+    background-color: #4caf50 !important;
+}
+
+.DECLINED {
+    background-color: #f44336 !important;
+}
+
+.PENDING {
+    background-color: #ff9800 !important;
+}

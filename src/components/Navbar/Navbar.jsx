@@ -134,7 +134,7 @@ export const Navbar = () => {
                             onClick={toggleAccountDropdown}
                         >
                             {isAuthenticated() ? (
-                                <Link to={'/dashboard'}>
+                                <Link to={'/dashboard'} onClick={closeDropdownMenu}>
                                     <UserName username={email}/>
                                 </Link>
                             ) : (

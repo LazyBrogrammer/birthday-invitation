@@ -26,6 +26,7 @@ export const FillCreatedEvent = ({data}) => {
     }]);
     const [isComplete, setIsComplete] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [canAddItems, setCanAddItems] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -77,12 +78,13 @@ export const FillCreatedEvent = ({data}) => {
             eventStartTime &&
             eventEndTime &&
             location &&
-            instructions &&
-            guests.every(guest => guest.email && guest.name && guest.role) &&
-            subEvent.every(sub => sub.partName && sub.startTime && sub.endTime && sub.location && sub.instruction && sub.note);
+            note &&
+            instructions;
 
         setIsComplete(allFieldsFilled);
-    }, [eventName, eventStartTime, eventEndTime, location, note, instructions, guests, subEvent]);
+
+        setCanAddItems(allFieldsFilled);
+    }, [eventName, eventStartTime, eventEndTime, location, note, instructions]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -205,153 +207,8 @@ export const FillCreatedEvent = ({data}) => {
                                 />
                             </div>
                         </div>
-                        <h3>Guests</h3>
-                        <button type="button" className="add-button"
-                                onClick={() => setGuests([...guests, {email: "", name: "", role: "GUEST"}])}>
-                            Add Guest
-                        </button>
-                        <div className="guests-container">
-                            {guests.map((guest, index) => (
-                                <div key={index} className="guest-item">
-                                    <label htmlFor={`guest-email-${index}`}>Guest Email:</label>
-                                    <input
-                                        id={`guest-email-${index}`}
-                                        type="email"
-                                        value={guest.email}
-                                        onChange={(e) => {
-                                            const newGuests = [...guests];
-                                            newGuests[index].email = e.target.value;
-                                            setGuests(newGuests);
-                                        }}
-                                    />
-                                    <label htmlFor={`guest-name-${index}`}>Guest Name:</label>
-                                    <input
-                                        id={`guest-name-${index}`}
-                                        type="text"
-                                        value={guest.name}
-                                        onChange={(e) => {
-                                            const newGuests = [...guests];
-                                            newGuests[index].name = e.target.value;
-                                            setGuests(newGuests);
-                                        }}
-                                    />
-                                    <label htmlFor={`guest-role-${index}`}>Role:</label>
-                                    <select
-                                        id={`guest-role-${index}`}
-                                        value={guest.role}
-                                        onChange={(e) => {
-                                            const newGuests = [...guests];
-                                            newGuests[index].role = e.target.value;
-                                            setGuests(newGuests);
-                                        }}
-                                    >
-                                        <option value="GUEST">GUEST</option>
-                                        <option value="ADMIN">ADMIN</option>
-                                    </select>
-                                    {guests.length > 1 && (
-                                        <button
-                                            type="button"
-                                            className="remove-button"
-                                            onClick={() => setGuests(guests.filter((_, i) => i !== index))}
-                                        >
-                                            Remove
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                        <h3>Sub-Events</h3>
-                        <button type="button" className="add-button" onClick={() => setSubEvent([...subEvent, {
-                            partName: "",
-                            startTime: "",
-                            endTime: "",
-                            location: "",
-                            instruction: "",
-                            note: ""
-                        }])}>
-                            Add Sub-Event
-                        </button>
-                        <div className="subevents-container">
-                            {subEvent.map((sub, index) => (
-                                <div key={index} className="subevent-item">
-                                    <label htmlFor={`sub-name-${index}`}>Part Name:</label>
-                                    <input
-                                        id={`sub-name-${index}`}
-                                        type="text"
-                                        value={sub.partName}
-                                        onChange={(e) => {
-                                            const newSubEvent = [...subEvent];
-                                            newSubEvent[index].partName = e.target.value;
-                                            setSubEvent(newSubEvent);
-                                        }}
-                                    />
-                                    <label htmlFor={`sub-start-time-${index}`}>Start Time:</label>
-                                    <input
-                                        id={`sub-start-time-${index}`}
-                                        type="datetime-local"
-                                        value={sub.startTime}
-                                        onChange={(e) => {
-                                            const newSubEvent = [...subEvent];
-                                            newSubEvent[index].startTime = e.target.value;
-                                            setSubEvent(newSubEvent);
-                                        }}
-                                    />
-                                    <label htmlFor={`sub-end-time-${index}`}>End Time:</label>
-                                    <input
-                                        id={`sub-end-time-${index}`}
-                                        type="datetime-local"
-                                        value={sub.endTime}
-                                        onChange={(e) => {
-                                            const newSubEvent = [...subEvent];
-                                            newSubEvent[index].endTime = e.target.value;
-                                            setSubEvent(newSubEvent);
-                                        }}
-                                    />
-                                    <label htmlFor={`sub-location-${index}`}>Location:</label>
-                                    <input
-                                        id={`sub-location-${index}`}
-                                        type="text"
-                                        value={sub.location}
-                                        onChange={(e) => {
-                                            const newSubEvent = [...subEvent];
-                                            newSubEvent[index].location = e.target.value;
-                                            setSubEvent(newSubEvent);
-                                        }}
-                                    />
-                                    <label htmlFor={`sub-instruction-${index}`}>Instruction:</label>
-                                    <textarea
-                                        id={`sub-instruction-${index}`}
-                                        rows={3}
-                                        value={sub.instruction}
-                                        onChange={(e) => {
-                                            const newSubEvent = [...subEvent];
-                                            newSubEvent[index].instruction = e.target.value;
-                                            setSubEvent(newSubEvent);
-                                        }}
-                                    />
-                                    <label htmlFor={`sub-note-${index}`}>Note:</label>
-                                    <textarea
-                                        id={`sub-note-${index}`}
-                                        rows={3}
-                                        value={sub.note}
-                                        onChange={(e) => {
-                                            const newSubEvent = [...subEvent];
-                                            newSubEvent[index].note = e.target.value;
-                                            setSubEvent(newSubEvent);
-                                        }}
-                                    />
-                                    {subEvent.length > 1 && (
-                                        <button
-                                            type="button"
-                                            className="remove-button"
-                                            onClick={() => setSubEvent(subEvent.filter((_, i) => i !== index))}
-                                        >
-                                            Remove Sub-Event
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+
+
                         <button className="create-event" type="submit" disabled={isSubmitting}>
                             {isSubmitting ? (
                                 <span style={{display: "flex"}}><div className="loader"></div>

@@ -1,7 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import toast, {Toaster} from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -24,9 +24,7 @@ export const Login = ({setLoggedIn}) => {
                 password,
             });
 
-
             if (response.data.success) {
-
                 const token = response.data.data.token;
                 localStorage.setItem("token", token);
                 localStorage.setItem("email", email);

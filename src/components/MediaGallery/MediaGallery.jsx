@@ -9,6 +9,7 @@ export const MediaGallery = () => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(null); // State for the selected image
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token');
@@ -82,6 +83,15 @@ export const MediaGallery = () => {
         }
     };
 
+    const handleImageClick = (thumbnailUrl) => {
+        console.log("Thumbnail URL:", thumbnailUrl); // Debug: Check the thumbnail URL
+        setSelectedImage(thumbnailUrl); // Set the selected thumbnail to show in the modal
+    };
+
+    const closeModal = () => {
+        setSelectedImage(null); // Close the modal by setting selected image to null
+    };
+
     return (
         <div className="media-gallery-container">
             <div className="upload-section">
@@ -129,6 +139,7 @@ export const MediaGallery = () => {
                                 src={item.thumbnailUrl}
                                 alt={item.filename}
                                 className="media-thumbnail"
+                                onClick={() => handleImageClick(item.thumbnailUrl)}
                             />
                             <a
                                 href={item.mediaUrl}
@@ -141,6 +152,16 @@ export const MediaGallery = () => {
                     ))
                 )}
             </div>
+
+            {/* Modal for Enlarged Image */}
+            {selectedImage && (
+                <div className="modal-overlay" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-button" onClick={closeModal} aria-label="Close modal">X</button>
+                        <img src={selectedImage} alt="Enlarged view" className="enlarged-image"/>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
